@@ -2,12 +2,41 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect, useMemo } from "react";
-import * as XLSX from "xlsx";
+import { useState, useEffect, useMemo, lazy, Suspense } from "react";
+import dynamic from "next/dynamic";
 import { showToast } from "@/components/Toast";
 import ConfirmModal from "@/components/ConfirmModal";
-import { jsPDF } from "jspdf";
 import { saveClientes, loadClientes, savePerfil, loadPerfil } from "@/utils/localStorage";
+
+// Lazy load de bibliotecas pesadas - só carregam quando necessário
+const loadXLSX = () => import("xlsx");
+const loadJsPDF = async () => {
+  const mod = await import("jspdf");
+  return mod.default || mod;
+};
+
+// Lazy load dos componentes de gráficos - só carregam na aba Painel/Financeiro
+const RechartsComponents = dynamic(
+  () => import("recharts").then((mod) => ({
+    default: () => null, // Placeholder
+    BarChart: mod.BarChart,
+    Bar: mod.Bar,
+    PieChart: mod.PieChart,
+    Pie: mod.Pie,
+    Cell: mod.Cell,
+    XAxis: mod.XAxis,
+    YAxis: mod.YAxis,
+    CartesianGrid: mod.CartesianGrid,
+    Tooltip: mod.Tooltip,
+    Legend: mod.Legend,
+    ResponsiveContainer: mod.ResponsiveContainer,
+    LineChart: mod.LineChart,
+    Line: mod.Line,
+  })),
+  { ssr: false }
+);
+
+// Importar componentes de gráficos diretamente (para uso nos componentes)
 import {
   BarChart,
   Bar,
@@ -881,8 +910,8 @@ export default function Inicio() {
 
     setLoadingExport("completo");
     
-    // Simular processamento
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    // Lazy load da biblioteca XLSX
+    const XLSX = await loadXLSX();
 
     // Preparar dados para Excel
     const dadosParaExcel = clientes.map((c) => {
@@ -951,7 +980,9 @@ export default function Inicio() {
     }
 
     setLoadingPDF(true);
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    
+    // Lazy load da biblioteca jsPDF
+    const jsPDF = await loadJsPDF();
 
     const doc = new jsPDF();
     const anotacoesCliente = getAnotacoesCliente(clienteId);
@@ -1360,6 +1391,8 @@ export default function Inicio() {
     setLoadingPDF(true);
     
     try {
+      // Lazy load da biblioteca jsPDF
+      const jsPDF = await loadJsPDF();
       const doc = new jsPDF();
       const pageWidth = doc.internal.pageSize.getWidth();
       const pageHeight = doc.internal.pageSize.getHeight();
@@ -1607,6 +1640,8 @@ export default function Inicio() {
     setLoadingPDF(true);
     
     try {
+      // Lazy load da biblioteca jsPDF
+      const jsPDF = await loadJsPDF();
       const doc = new jsPDF();
       const pageWidth = doc.internal.pageSize.getWidth();
       const pageHeight = doc.internal.pageSize.getHeight();
@@ -2734,6 +2769,7 @@ export default function Inicio() {
                   {clientesFiltradosPesquisa.length > 0 && (
                     <button
                       onClick={async () => {
+                        const XLSX = await loadXLSX();
                         const wb = XLSX.utils.book_new();
                         const data = clientesFiltradosPesquisa.map((c) => ({
                           Nome: c.nome,
