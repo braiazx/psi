@@ -128,3 +128,12 @@ export default function Sidebar({ activeSection, setActiveSection, perfil }: Sid
   );
 }
 
+
+
+
+
+
+
+
+
+

@@ -181,3 +181,12 @@ export const TIPOS_EVENTO = [
   "Consulta", "Avaliação", "Retorno", "Reunião", "Acompanhamento", "Outros"
 ];
 
+
+
+
+
+
+
+
+
+

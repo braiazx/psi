@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregando Dados - Ordenate</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0b0416, #1a0a2e);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+        }
+        .success { background: rgba(34,197,94,0.2); color: #22c55e; }
+        .error { background: rgba(239,68,68,0.2); color: #ef4444; }
+        .btn {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: 600;
+        }
+        .btn:hover { opacity: 0.9; }
+        pre { 
+            text-align: left; 
+            background: rgba(0,0,0,0.3); 
+            padding: 10px; 
+            border-radius: 5px;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ordenate - Carregar Dados Demo</h1>
+        <p>Clique no botão para carregar dados de demonstração</p>
+        
+        <button class="btn" onclick="carregarDados()">Carregar Dados</button>
+        <button class="btn" onclick="abrirSistema()">Abrir Sistema</button>
+        
+        <div id="status"></div>
+        <div id="logs"><pre id="console"></pre></div>
+    </div>
+
+    <script>
+        const dadosDemo = {
+            perfil: {
+                nome: "Dr. Rafael Mendes",
+                idade: "42",
+                genero: "Masculino",
+                pronomes: "ele/dele",
+                foto: null
+            },
+            clientes: [
+                {
+                    id: "demo1",
+                    nome: "Ana Carolina Silva",
+                    email: "ana.silva@empresa.com",
+                    telefone: "(11) 98765-4321",
+                    celular: "(11) 98765-4321",
+                    status: "Ativo",
+                    grupo: "Liderança",
+                    cpf: "123.456.789-00",
+                    rg: "12.345.678-9",
+                    dataNascimento: "1985-03-15",
+                    genero: "Feminino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Mensal",
+                    valorSessao: "350",
+                    observacoes: "Gerente de RH, desenvolvimento de liderança",
+                    endereco: "São Paulo, SP",
+                    adicionais: "",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: new Date().toISOString(),
+                    dataAtualizacao: new Date().toISOString()
+                },
+                {
+                    id: "demo2",
+                    nome: "Bruno Oliveira Costa",
+                    email: "bruno.costa@tech.com",
+                    telefone: "(11) 97654-3210",
+                    celular: "(11) 97654-3210",
+                    status: "Ativo",
+                    grupo: "Individual",
+                    cpf: "234.567.890-11",
+                    rg: "23.456.789-0",
+                    dataNascimento: "1990-07-22",
+                    genero: "Masculino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Avulso",
+                    valorSessao: "280",
+                    observacoes: "Desenvolvedor, questões de burnout",
+                    endereco: "São Paulo, SP",
+                    adicionais: "",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: new Date().toISOString(),
+                    dataAtualizacao: new Date().toISOString()
+                },
+                {
+                    id: "demo3",
+                    nome: "Carla Beatriz Santos",
+                    email: "carla.santos@consultoria.com",
+                    telefone: "(11) 96543-2109",
+                    celular: "(11) 96543-2109",
+                    status: "Ativo",
+                    grupo: "Corporativo",
+                    cpf: "345.678.901-22",
+                    rg: "34.567.890-1",
+                    dataNascimento: "1982-11-30",
+                    genero: "Feminino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Trimestral",
+                    valorSessao: "400",
+                    observacoes: "CEO, coaching executivo",
+                    endereco: "São Paulo, SP",
+                    adicionais: "",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: new Date().toISOString(),
+                    dataAtualizacao: new Date().toISOString()
+                }
+            ]
+        };
+
+        function log(msg) {
+            const consoleEl = document.getElementById('console');
+            consoleEl.textContent += msg + '\n';
+            console.log(msg);
+        }
+
+        function showStatus(msg, isError = false) {
+            const statusEl = document.getElementById('status');
+            statusEl.className = 'status ' + (isError ? 'error' : 'success');
+            statusEl.innerHTML = msg;
+        }
+
+        function carregarDados() {
+            try {
+                log('Iniciando carregamento...');
+                
+                // Limpar dados antigos
+                localStorage.removeItem('clientes_ordenate');
+                localStorage.removeItem('perfil_ordenate');
+                localStorage.removeItem('eventos_ordenate');
+                localStorage.removeItem('transacoes_ordenate');
+                localStorage.removeItem('anotacoes_ordenate');
+                log('Dados antigos limpos');
+                
+                // Salvar perfil
+                localStorage.setItem('perfil_ordenate', JSON.stringify(dadosDemo.perfil));
+                log('Perfil salvo: ' + dadosDemo.perfil.nome);
+                
+                // Salvar clientes
+                localStorage.setItem('clientes_ordenate', JSON.stringify(dadosDemo.clientes));
+                log('Clientes salvos: ' + dadosDemo.clientes.length);
+                
+                // Verificar se salvou
+                const verificacao = localStorage.getItem('clientes_ordenate');
+                if (verificacao) {
+                    const parsed = JSON.parse(verificacao);
+                    log('Verificação: ' + parsed.length + ' clientes no localStorage');
+                    showStatus('Dados carregados com sucesso!<br>' + parsed.length + ' clientes salvos');
+                } else {
+                    throw new Error('Falha ao verificar dados salvos');
+                }
+                
+            } catch (error) {
+                log('ERRO: ' + error.message);
+                showStatus('Erro: ' + error.message, true);
+            }
+        }
+
+        function abrirSistema() {
+            // Tentar ambas as portas
+            log('Tentando abrir sistema...');
+            
+            // Verificar dados antes
+            const dados = localStorage.getItem('clientes_ordenate');
+            if (!dados) {
+                alert('Carregue os dados primeiro!');
+                return;
+            }
+            
+            // Tentar porta 3000
+            window.open('http://localhost:3000/inicio', '_blank');
+            
+            // Se não funcionar, instruir sobre porta 3002
+            setTimeout(() => {
+                if (!confirm('Sistema abriu corretamente?\nSe não, clique em OK para tentar porta 3002')) {
+                    window.open('http://localhost:3002/inicio', '_blank');
+                }
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
+
+

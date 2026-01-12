@@ -448,7 +448,19 @@ export default function Inicio() {
         const eventosParsed = JSON.parse(eventosSalvos);
         setEventos(eventosParsed);
       } else {
-        setEventos([]);
+        // Carregar dados fictícios se não houver dados salvos
+        const dadosFicticios = [
+          { id: "e1", titulo: "Sessão - Ana Carolina", descricao: "Acompanhamento quinzenal", data: "2026-01-14", hora: "09:00", clienteId: "c1", tipo: "Consulta", valor: 350, realizado: false, receitaGerada: false },
+          { id: "e2", titulo: "Sessão - Bruno Oliveira", descricao: "Continuação sobre burnout", data: "2026-01-14", hora: "10:30", clienteId: "c2", tipo: "Consulta", valor: 280, realizado: false, receitaGerada: false },
+          { id: "e3", titulo: "Coaching Executivo - Carla", descricao: "Sessão mensal", data: "2026-01-15", hora: "14:00", clienteId: "c3", tipo: "Acompanhamento", valor: 600, realizado: false, receitaGerada: false },
+          { id: "e4", titulo: "Avaliação Inicial - Karen", descricao: "Primeira sessão", data: "2026-01-16", hora: "11:00", clienteId: "c11", tipo: "Avaliação", valor: 220, realizado: false, receitaGerada: false },
+          { id: "e5", titulo: "Reunião de Equipe - TechCorp", descricao: "Workshop comunicação", data: "2026-01-17", hora: "09:00", clienteId: "c12", tipo: "Reunião", valor: 1500, realizado: false, receitaGerada: false },
+          { id: "e6", titulo: "Sessão - Elena Rodrigues", descricao: "Trabalho sobre equilíbrio", data: "2026-01-13", hora: "16:00", clienteId: "c5", tipo: "Consulta", valor: 380, realizado: true, receitaGerada: true },
+          { id: "e7", titulo: "Sessão - Fernando Almeida", descricao: "Gestão de equipes", data: "2026-01-13", hora: "10:00", clienteId: "c6", tipo: "Consulta", valor: 320, realizado: true, receitaGerada: true },
+          { id: "e8", titulo: "Retorno - Henrique Souza", descricao: "Acompanhamento transição", data: "2026-01-20", hora: "08:00", clienteId: "c8", tipo: "Retorno", valor: 675, realizado: false, receitaGerada: false }
+        ];
+        localStorage.setItem("eventos_ordenate", JSON.stringify(dadosFicticios));
+        setEventos(dadosFicticios);
       }
     } catch (error) {
       console.error("Erro ao carregar eventos:", error);
@@ -756,6 +768,27 @@ export default function Inicio() {
       } catch (error) {
         console.error("Erro ao carregar transações:", error);
       }
+    } else {
+      // Carregar dados fictícios se não houver dados salvos
+      const dadosFicticios = [
+        { id: "t1", tipo: "receita", valor: 350, descricao: "Sessão - Ana Carolina Silva", data: "2026-01-07", formaPagamento: "PIX", clienteId: "c1", pago: true, dataCriacao: new Date('2026-01-07').toISOString() },
+        { id: "t2", tipo: "receita", valor: 280, descricao: "Sessão - Bruno Oliveira Costa", data: "2026-01-07", formaPagamento: "Cartão de Crédito", clienteId: "c2", pago: true, dataCriacao: new Date('2026-01-07').toISOString() },
+        { id: "t3", tipo: "receita", valor: 380, descricao: "Sessão - Elena Rodrigues", data: "2026-01-06", formaPagamento: "Transferência", clienteId: "c5", pago: true, dataCriacao: new Date('2026-01-06').toISOString() },
+        { id: "t4", tipo: "receita", valor: 320, descricao: "Sessão - Fernando Almeida", data: "2026-01-09", formaPagamento: "PIX", clienteId: "c6", pago: true, dataCriacao: new Date('2026-01-09').toISOString() },
+        { id: "t5", tipo: "receita", valor: 450, descricao: "Sessão - Henrique Souza", data: "2026-01-06", formaPagamento: "Boleto", clienteId: "c8", pago: true, dataCriacao: new Date('2026-01-06').toISOString() },
+        { id: "t6", tipo: "receita", valor: 350, descricao: "Sessão - João Pedro Campos", data: "2026-01-10", formaPagamento: "PIX", clienteId: "c10", pago: true, dataCriacao: new Date('2026-01-10').toISOString() },
+        { id: "t7", tipo: "receita", valor: 380, descricao: "Sessão - Lucas Andrade", data: "2026-01-11", formaPagamento: "Cartão de Débito", clienteId: "c12", pago: true, dataCriacao: new Date('2026-01-11').toISOString() },
+        { id: "t8", tipo: "receita", valor: 600, descricao: "Coaching Executivo - Carla Beatriz", data: "2026-01-02", formaPagamento: "Transferência", clienteId: "c3", pago: true, dataCriacao: new Date('2026-01-02').toISOString() },
+        { id: "t9", tipo: "despesa", valor: 2500, descricao: "Aluguel do consultório - Janeiro", data: "2026-01-05", formaPagamento: "Boleto", categoria: "Aluguel", pago: true, dataCriacao: new Date('2026-01-05').toISOString() },
+        { id: "t10", tipo: "despesa", valor: 150, descricao: "Material de escritório", data: "2026-01-03", formaPagamento: "Cartão de Crédito", categoria: "Materiais", pago: true, dataCriacao: new Date('2026-01-03').toISOString() },
+        { id: "t11", tipo: "despesa", valor: 89.90, descricao: "Assinatura software de gestão", data: "2026-01-01", formaPagamento: "Cartão de Crédito", categoria: "Serviços", pago: true, dataCriacao: new Date('2026-01-01').toISOString() },
+        { id: "t12", tipo: "despesa", valor: 350, descricao: "Marketing digital - Meta Ads", data: "2026-01-08", formaPagamento: "Cartão de Crédito", categoria: "Marketing", pago: true, dataCriacao: new Date('2026-01-08').toISOString() },
+        { id: "t13", tipo: "receita", valor: 3500, descricao: "Pacote trimestral - Elena Rodrigues", data: "2025-12-15", formaPagamento: "Transferência", clienteId: "c5", pago: true, dataCriacao: new Date('2025-12-15').toISOString() },
+        { id: "t14", tipo: "receita", valor: 2800, descricao: "Workshop Comunicação - TechCorp", data: "2025-12-20", formaPagamento: "Boleto", clienteId: "c12", pago: true, dataCriacao: new Date('2025-12-20').toISOString() },
+        { id: "t15", tipo: "despesa", valor: 2500, descricao: "Aluguel do consultório - Dezembro", data: "2025-12-05", formaPagamento: "Boleto", categoria: "Aluguel", pago: true, dataCriacao: new Date('2025-12-05').toISOString() }
+      ];
+      localStorage.setItem("transacoes_ordenate", JSON.stringify(dadosFicticios));
+      setTransacoes(dadosFicticios);
     }
   }, []);
 
@@ -776,6 +809,22 @@ export default function Inicio() {
       } catch (error) {
         console.error("Erro ao carregar anotações:", error);
       }
+    } else {
+      // Carregar dados fictícios se não houver dados salvos
+      const dadosFicticios = [
+        { id: "a1", clienteId: "c1", texto: "Sessão focada em técnicas de feedback construtivo. Ana demonstrou grande evolução na aplicação da escuta ativa com sua equipe.", data: "2026-01-07", dataCriacao: new Date('2026-01-07').toISOString(), estadoEmocional: "Motivado", tendencia: "Proativo", urgencia: "Baixa", tipoAcompanhamento: "Desenvolvimento" },
+        { id: "a2", clienteId: "c1", texto: "Revisão do plano de desenvolvimento individual. Ana reportou melhoria significativa no clima da equipe.", data: "2025-12-17", dataCriacao: new Date('2025-12-17').toISOString(), estadoEmocional: "Colaborativo", tendencia: "Engajado", urgencia: "Baixa", tipoAcompanhamento: "Feedback" },
+        { id: "a3", clienteId: "c2", texto: "Bruno relatou episódio de sobrecarga na última sprint. Trabalhamos técnicas de gerenciamento de tempo.", data: "2026-01-07", dataCriacao: new Date('2026-01-07').toISOString(), estadoEmocional: "Ansioso", tendencia: "Em adaptação", urgencia: "Média", tipoAcompanhamento: "Orientação" },
+        { id: "a4", clienteId: "c3", texto: "Sessão de coaching executivo focada em tomada de decisão estratégica. Carla está conduzindo processo de fusão com competência.", data: "2026-01-02", dataCriacao: new Date('2026-01-02').toISOString(), estadoEmocional: "Colaborativo", tendencia: "Proativo", urgencia: "Média", tipoAcompanhamento: "Desenvolvimento" },
+        { id: "a5", clienteId: "c5", texto: "Elena conseguiu estabelecer boundaries mais claros com a equipe. Redução de horas extras de 20h para 8h semanais.", data: "2026-01-06", dataCriacao: new Date('2026-01-06').toISOString(), estadoEmocional: "Motivado", tendencia: "Proativo", urgencia: "Baixa", tipoAcompanhamento: "Feedback" },
+        { id: "a6", clienteId: "c6", texto: "Fernando reportou conflito na equipe criativa. Trabalhamos estratégias de mediação e comunicação não-violenta.", data: "2026-01-09", dataCriacao: new Date('2026-01-09').toISOString(), estadoEmocional: "Ansioso", tendencia: "Reativo", urgencia: "Alta", tipoAcompanhamento: "Conflito" },
+        { id: "a7", clienteId: "c7", texto: "Primeira sessão - avaliação inicial. Gabriela apresenta sinais de exaustão relacionados à carga de plantões.", data: "2026-01-08", dataCriacao: new Date('2026-01-08').toISOString(), estadoEmocional: "Estressado", tendencia: "Em adaptação", urgencia: "Alta", tipoAcompanhamento: "Avaliação" },
+        { id: "a8", clienteId: "c8", texto: "Henrique está no processo final de transição para o conselho. Trabalhamos aspectos emocionais de 'deixar ir' a gestão operacional.", data: "2026-01-06", dataCriacao: new Date('2026-01-06').toISOString(), estadoEmocional: "Neutro", tendencia: "Estável", urgencia: "Baixa", tipoAcompanhamento: "Desenvolvimento" },
+        { id: "a9", clienteId: "c10", texto: "Avanço significativo em habilidades de liderança situacional. João aplicou com sucesso técnica de coaching com colaborador jr.", data: "2026-01-10", dataCriacao: new Date('2026-01-10').toISOString(), estadoEmocional: "Motivado", tendencia: "Engajado", urgencia: "Baixa", tipoAcompanhamento: "Feedback" },
+        { id: "a10", clienteId: "c12", texto: "Lucas está liderando transformação digital na empresa. Discussão sobre gestão de resistência à mudança e comunicação de visão.", data: "2026-01-11", dataCriacao: new Date('2026-01-11').toISOString(), estadoEmocional: "Colaborativo", tendencia: "Proativo", urgencia: "Média", tipoAcompanhamento: "Desenvolvimento" }
+      ];
+      localStorage.setItem("anotacoes_ordenate", JSON.stringify(dadosFicticios));
+      setAnotacoes(dadosFicticios);
     }
   }, []);
 
@@ -2041,14 +2090,14 @@ export default function Inicio() {
       <div className="flex min-h-screen">
         {/* Sidebar */}
         <aside 
-          className={`${sidebarExpanded ? "w-56" : "w-20"} shrink-0 bg-[#0f0a1f] border-r border-white/10 flex flex-col py-6 gap-2 transition-all duration-300 ease-in-out relative group`}
+          className={`${sidebarExpanded ? "w-56" : "w-20"} shrink-0 bg-[#0f0a1f] border-r border-slate-700/50 flex flex-col py-6 gap-2 transition-all duration-300 ease-in-out relative group`}
           onMouseEnter={() => setSidebarExpanded(true)}
           onMouseLeave={() => setSidebarExpanded(false)}
         >
           {/* Toggle Button */}
           <button
             onClick={() => setSidebarExpanded(!sidebarExpanded)}
-            className="absolute -right-3 top-8 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-purple-600 text-white shadow-lg hover:bg-purple-500 transition-all"
+            className="absolute -right-3 top-8 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-purple-600 text-slate-100 shadow-lg hover:bg-purple-500 transition-all"
             title={sidebarExpanded ? "Recolher menu" : "Expandir menu"}
           >
             <svg 
@@ -2063,11 +2112,11 @@ export default function Inicio() {
 
           {/* Logo/Brand */}
           <div className={`flex items-center ${sidebarExpanded ? "px-4" : "justify-center"} mb-4`}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-purple-600 to-fuchsia-600 shadow-lg shadow-purple-900/50">
-              <span className="text-lg font-bold text-white">O</span>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-700">
+              <span className="text-lg font-bold text-slate-100">O</span>
             </div>
             {sidebarExpanded && (
-              <span className="ml-3 text-lg font-bold text-white animate-fade-in">Ordenate</span>
+              <span className="ml-3 text-lg font-bold text-slate-100 animate-fade-in">Ordenate</span>
             )}
           </div>
 
@@ -2092,8 +2141,8 @@ export default function Inicio() {
                   onClick={() => setActiveSection(item.label)}
                   className={`flex items-center ${sidebarExpanded ? "px-3" : "justify-center"} h-12 rounded-xl text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-lg shadow-purple-900/50"
-                      : "text-slate-300 hover:bg-white/10 hover:text-white"
+                      ? "bg-slate-700 text-slate-100 shadow-lg shadow-purple-900/50"
+                      : "text-slate-300 hover:bg-white/10 hover:text-slate-100"
                   }`}
                   title={!sidebarExpanded ? item.label : undefined}
                 >
@@ -2124,10 +2173,10 @@ export default function Inicio() {
             <div className={`h-px bg-white/10 ${sidebarExpanded ? "mx-2" : "mx-1"} mb-3`} />
             <Link
               href="/inicio/perfil"
-              className={`flex items-center ${sidebarExpanded ? "px-3" : "justify-center"} h-12 rounded-xl text-sm font-medium text-slate-300 hover:bg-white/10 hover:text-white transition-all duration-200`}
+              className={`flex items-center ${sidebarExpanded ? "px-3" : "justify-center"} h-12 rounded-xl text-sm font-medium text-slate-300 hover:bg-white/10 hover:text-slate-100 transition-all duration-200`}
               title={!sidebarExpanded ? "Perfil" : undefined}
             >
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-600 text-white overflow-hidden">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-600 text-slate-100 overflow-hidden">
                 {perfil.foto ? (
                   <Image
                     src={perfil.foto}
@@ -2142,7 +2191,7 @@ export default function Inicio() {
               </div>
               {sidebarExpanded && (
                 <div className="ml-2 overflow-hidden animate-fade-in">
-                  <p className="text-sm font-medium text-white truncate">{perfil.nome || "Usuário"}</p>
+                  <p className="text-sm font-medium text-slate-100 truncate">{perfil.nome || "Usuário"}</p>
                   <p className="text-xs text-slate-400">Ver perfil</p>
                 </div>
               )}
@@ -2154,7 +2203,7 @@ export default function Inicio() {
         <div className="flex-1 px-8 py-8">
           <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-2xl font-semibold text-white">
+              <h1 className="text-2xl font-semibold text-slate-100">
                 {activeSection === "Clientes" ? "Cadastros" : activeSection}
               </h1>
               <p className="text-sm text-slate-400">
@@ -2171,9 +2220,9 @@ export default function Inicio() {
               </span>
               <Link
                 href="/inicio/perfil"
-                className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-slate-100 hover:bg-white/10 transition"
+                className="flex items-center gap-2 rounded-full border border-slate-700/50 bg-slate-800/50 px-3 py-2 text-sm font-semibold text-slate-100 hover:bg-white/10 transition"
               >
-                <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-purple-600 text-white">
+                <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-purple-600 text-slate-100">
                   {perfil.foto ? (
                     <Image
                       src={perfil.foto}
@@ -2188,7 +2237,7 @@ export default function Inicio() {
                 </div>
                 <div className="text-left leading-tight">
                   <p className="text-xs text-slate-300">Meu perfil</p>
-                  <p className="text-sm font-semibold text-white">{perfil.nome}</p>
+                  <p className="text-sm font-semibold text-slate-100">{perfil.nome}</p>
                 </div>
               </Link>
             </div>
@@ -2199,14 +2248,14 @@ export default function Inicio() {
               {/* Form principal + lista */}
               <div className="mt-6 grid gap-6 lg:grid-cols-2">
                 {/* Form lado esquerdo */}
-                <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5 shadow-lg shadow-purple-900/30 text-sm text-slate-200 animate-fade-in hover-lift">
-                  <h3 className="text-base font-semibold text-white">Cadastro de Cliente</h3>
+                <div className="space-y-4 rounded-2xl border border-slate-700/50 bg-slate-800/50 p-5 shadow-sm text-sm text-slate-200 animate-fade-in hover-lift">
+                  <h3 className="text-base font-semibold text-slate-100">Cadastro de Cliente</h3>
 
               {/* Upload de Foto */}
               <div className="space-y-2">
                 <p className="text-xs uppercase tracking-[0.15em] text-slate-400">Foto do cliente</p>
                 <div className="flex items-center gap-4">
-                  <div className="relative h-20 w-20 rounded-full border-2 border-dashed border-purple-500/40 bg-white/5 flex items-center justify-center overflow-hidden">
+                  <div className="relative h-20 w-20 rounded-full border-2 border-dashed border-purple-500/40 bg-slate-800/50 flex items-center justify-center overflow-hidden">
                     {form.fotoUrl ? (
                       <img 
                         src={form.fotoUrl} 
@@ -2262,32 +2311,32 @@ export default function Inicio() {
                     value={form.nome}
                     onChange={(e) => setForm({ ...form, nome: e.target.value })}
                     placeholder="Nome completo *"
-                    className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                    className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                   />
                   <input
                     value={form.grupo}
                     onChange={(e) => setForm({ ...form, grupo: e.target.value })}
                     placeholder="Grupo (ex.: Equipe A)"
-                    className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                    className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                   />
                   <input
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     placeholder="E-mail"
-                    className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                    className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                   />
                   <div className="grid grid-cols-2 gap-2">
                     <input
                       value={form.celular}
                       onChange={(e) => setForm({ ...form, celular: e.target.value })}
                       placeholder="Celular"
-                      className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                      className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                     />
                     <input
                       value={form.telefone}
                       onChange={(e) => setForm({ ...form, telefone: e.target.value })}
                       placeholder="Telefone"
-                      className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                      className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                     />
                   </div>
                   <div className="flex items-center gap-2">
@@ -2300,7 +2349,7 @@ export default function Inicio() {
                       value={form.linkedin}
                       onChange={(e) => setForm({ ...form, linkedin: e.target.value })}
                       placeholder="URL do LinkedIn (ex.: linkedin.com/in/usuario)"
-                      className="flex-1 rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-[#0077B5]"
+                      className="flex-1 rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-[#0077B5]"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-2">
@@ -2308,13 +2357,13 @@ export default function Inicio() {
                       value={form.cpf}
                       onChange={(e) => setForm({ ...form, cpf: e.target.value })}
                       placeholder="CPF"
-                      className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                      className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                     />
                     <input
                       value={form.rg}
                       onChange={(e) => setForm({ ...form, rg: e.target.value })}
                       placeholder="RG"
-                      className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                      className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-2">
@@ -2322,12 +2371,12 @@ export default function Inicio() {
                       value={form.dataNascimento}
                       onChange={(e) => setForm({ ...form, dataNascimento: e.target.value })}
                       placeholder="Data de nascimento"
-                      className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                      className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                     />
                     <select
                       value={form.genero}
                       onChange={(e) => setForm({ ...form, genero: e.target.value })}
-                      className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                      className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                     >
                       <option value="" className="bg-slate-800 text-slate-400">Selecione o gênero</option>
                       <option value="Masculino" className="bg-slate-800 text-slate-100">Masculino</option>
@@ -2352,7 +2401,7 @@ export default function Inicio() {
                     value={form.observacoes}
                     onChange={(e) => setForm({ ...form, observacoes: e.target.value })}
                     placeholder="Observações"
-                    className="md:col-span-2 rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                    className="md:col-span-2 rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                     rows={2}
                   />
                 </div>
@@ -2365,13 +2414,13 @@ export default function Inicio() {
                     value={form.planoFinanceiro}
                     onChange={(e) => setForm({ ...form, planoFinanceiro: e.target.value })}
                     placeholder="Plano financeiro (ex.: por sessão)"
-                    className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                    className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                   />
                   <input
                     value={form.valorSessao}
                     onChange={(e) => setForm({ ...form, valorSessao: e.target.value })}
                     placeholder="Valor da sessão (R$)"
-                    className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                    className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                   />
                 </div>
               </div>
@@ -2382,7 +2431,7 @@ export default function Inicio() {
                   value={form.endereco}
                   onChange={(e) => setForm({ ...form, endereco: e.target.value })}
                   placeholder="Endereço completo"
-                  className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                  className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                   rows={2}
                 />
               </div>
@@ -2393,7 +2442,7 @@ export default function Inicio() {
                   value={form.adicionais}
                   onChange={(e) => setForm({ ...form, adicionais: e.target.value })}
                   placeholder="Dados adicionais, preferências ou acordos"
-                  className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                  className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                   rows={2}
                 />
               </div>
@@ -2404,7 +2453,7 @@ export default function Inicio() {
                   value={form.responsavel}
                   onChange={(e) => setForm({ ...form, responsavel: e.target.value })}
                   placeholder="Responsável financeiro ou legal (se aplicável)"
-                  className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                  className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                   rows={2}
                 />
               </div>
@@ -2451,7 +2500,7 @@ export default function Inicio() {
                   showToast(`Cliente "${novo.nome}" cadastrado com sucesso!`, "success");
                 }}
                 disabled={savingClient}
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-500 via-fuchsia-500 to-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-purple-900/40 hover:brightness-110 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-slate-600 px-4 py-2 text-sm font-semibold text-slate-100 shadow-lg shadow-purple-900/40 hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {savingClient ? (
                   <>
@@ -2468,8 +2517,8 @@ export default function Inicio() {
                 </div>
 
                 {/* Lista lado direito */}
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-lg shadow-purple-900/30 text-sm text-slate-200 animate-fade-in">
-                  <h3 className="text-base font-semibold text-white">Clientes Cadastrados</h3>
+                <div className="rounded-2xl border border-slate-700/50 bg-slate-800/50 p-5 shadow-sm text-sm text-slate-200 animate-fade-in">
+                  <h3 className="text-base font-semibold text-slate-100">Clientes Cadastrados</h3>
                   <p className="text-xs text-slate-400 mt-1">Lista de todos os clientes</p>
                   {clientesFiltrados.length === 0 ? (
                     <p className="mt-3 text-slate-400 text-sm">
@@ -2480,7 +2529,7 @@ export default function Inicio() {
                       {clientesFiltrados.map((c, index) => (
                         <div
                           key={c.id}
-                          className="rounded-xl border border-white/10 bg-white/5 px-3 py-3 space-y-3 animate-fade-in hover-lift"
+                          className="rounded-xl border border-slate-700/50 bg-slate-800/50 px-3 py-3 space-y-3 animate-fade-in hover-lift"
                           style={{ animationDelay: `${index * 0.05}s` }}
                         >
                           <div className="flex items-start justify-between gap-2 text-slate-100">
@@ -2494,7 +2543,7 @@ export default function Inicio() {
                                 <img src={c.fotoUrl} alt={c.nome} className="h-full w-full object-cover" />
                               ) : (
                                 <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-purple-500/30 to-fuchsia-500/30">
-                                  <span className="text-sm font-bold text-purple-300">{c.nome.charAt(0).toUpperCase()}</span>
+                                  <span className="text-sm font-bold text-slate-400">{c.nome.charAt(0).toUpperCase()}</span>
                                 </div>
                               )}
                             </button>
@@ -2502,7 +2551,7 @@ export default function Inicio() {
                               <div className="flex items-center gap-2">
                                 <button
                                   onClick={() => setShowPerfilClienteModal(c.id)}
-                                  className="font-semibold hover:text-purple-300 transition"
+                                  className="font-semibold hover:text-slate-400 transition"
                                 >
                                   {c.nome}
                                 </button>
@@ -2552,14 +2601,14 @@ export default function Inicio() {
                               <button
                                 onClick={() => gerarRelatorioCliente(c.id)}
                                 disabled={loadingPDF}
-                                className="rounded-lg border border-white/15 bg-white/5 px-2 py-1 text-xs font-semibold text-purple-200 hover:bg-purple-500/20 transition-all hover:scale-105 disabled:opacity-50"
+                                className="rounded-lg border border-white/15 bg-slate-800/50 px-2 py-1 text-xs font-semibold text-purple-200 hover:bg-purple-500/20 transition-all hover:scale-105 disabled:opacity-50"
                                 title="Gerar Relatório"
                               >
                                 PDF
                               </button>
                               <button
                                 onClick={() => handleDeleteClick(c.id, c.nome)}
-                                className="rounded-lg border border-white/15 bg-white/5 px-2 py-1 text-xs font-semibold text-rose-200 hover:bg-rose-500/20 transition-all hover:scale-105"
+                                className="rounded-lg border border-white/15 bg-slate-800/50 px-2 py-1 text-xs font-semibold text-rose-200 hover:bg-rose-500/20 transition-all hover:scale-105"
                               >
                                 Excluir
                               </button>
@@ -2593,9 +2642,9 @@ export default function Inicio() {
                                 Anotações 
                                 <span className="rounded-full bg-purple-500/30 px-2 py-0.5 text-xs">{getAnotacoesCliente(c.id).length}</span>
                               </label>
-                              <div className="max-h-32 overflow-y-auto space-y-2 rounded-xl border border-white/10 bg-white/5 p-2">
+                              <div className="max-h-32 overflow-y-auto space-y-2 rounded-xl border border-slate-700/50 bg-slate-800/50 p-2">
                                 {getAnotacoesCliente(c.id).slice(0, 3).map((anot) => (
-                                  <div key={anot.id} className="rounded-lg bg-white/5 p-2 text-xs">
+                                  <div key={anot.id} className="rounded-lg bg-slate-800/50 p-2 text-xs">
                                     <p className="text-slate-300">{anot.texto}</p>
                                     <p className="text-slate-500 text-[10px] mt-1">{new Date(anot.dataCriacao).toLocaleDateString("pt-BR")}</p>
                           </div>
@@ -2619,22 +2668,22 @@ export default function Inicio() {
           {activeSection === "Pesquisa" && (
             <div className="mt-8 space-y-6 section-transition animate-fade-in">
               {/* Barra de Busca Principal */}
-              <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 p-6 shadow-lg shadow-purple-900/30">
+              <div className="rounded-2xl border border-slate-700/50 bg-slate-800/30 p-6 shadow-sm">
                 <div className="flex flex-col gap-4">
-                  <div className="flex w-full items-center rounded-xl border border-purple-500/30 bg-white/5 px-4 py-3 backdrop-blur-sm">
+                  <div className="flex w-full items-center rounded-xl border border-slate-600/50 bg-slate-800/50 px-4 py-3 backdrop-blur-sm">
                     <svg className="h-5 w-5 text-purple-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                         <input
                       value={searchPesquisa}
                       onChange={(e) => setSearchPesquisa(e.target.value)}
-                      className="flex-1 bg-transparent text-base text-white placeholder:text-slate-400 outline-none"
+                      className="flex-1 bg-transparent text-base text-slate-100 placeholder:text-slate-400 outline-none"
                       placeholder="Buscar por nome, email, telefone, CPF, RG... (Ctrl+K para focar)"
                     />
                     {searchPesquisa && (
                       <button
                         onClick={() => setSearchPesquisa("")}
-                        className="ml-2 rounded-full p-1 text-slate-400 hover:text-white hover:bg-white/10 transition"
+                        className="ml-2 rounded-full p-1 text-slate-400 hover:text-slate-100 hover:bg-white/10 transition"
                       >
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -2644,7 +2693,7 @@ export default function Inicio() {
                       </div>
 
                   {searchPesquisa && (
-                    <p className="text-sm text-purple-300">
+                    <p className="text-sm text-slate-400">
                       <span className="font-semibold">{clientesFiltradosPesquisa.length}</span> {clientesFiltradosPesquisa.length === 1 ? "resultado encontrado" : "resultados encontrados"}
                     </p>
                   )}
@@ -2652,9 +2701,9 @@ export default function Inicio() {
                       </div>
 
               {/* Filtros Avançados */}
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg shadow-purple-900/30">
+              <div className="rounded-2xl border border-slate-700/50 bg-slate-800/50 p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-white">Filtros Avançados</h3>
+                  <h3 className="text-lg font-semibold text-slate-100">Filtros Avançados</h3>
                   {(filterStatusPesquisa !== "Todos" || filterGeneroPesquisa !== "Todos" || searchPesquisa) && (
                     <button
                       onClick={() => {
@@ -2662,7 +2711,7 @@ export default function Inicio() {
                         setFilterGeneroPesquisa("Todos");
                         setSearchPesquisa("");
                       }}
-                      className="text-sm text-purple-400 hover:text-purple-300 transition"
+                      className="text-sm text-purple-400 hover:text-slate-400 transition"
                     >
                       Limpar todos os filtros
                     </button>
@@ -2676,7 +2725,7 @@ export default function Inicio() {
                         <select
                       value={filterStatusPesquisa}
                       onChange={(e) => setFilterStatusPesquisa(e.target.value)}
-                      className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-sm text-slate-100 outline-none focus:border-purple-400 transition"
+                      className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-sm text-slate-100 outline-none focus:border-purple-400 transition"
                     >
                       <option value="Todos">Todos</option>
                       <option value="Ativo">Ativo</option>
@@ -2691,7 +2740,7 @@ export default function Inicio() {
                     <select
                       value={filterGeneroPesquisa}
                       onChange={(e) => setFilterGeneroPesquisa(e.target.value)}
-                      className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-sm text-slate-100 outline-none focus:border-purple-400 transition"
+                      className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-sm text-slate-100 outline-none focus:border-purple-400 transition"
                     >
                       <option value="Todos">Todos</option>
                       <option value="Masculino">Masculino</option>
@@ -2707,7 +2756,7 @@ export default function Inicio() {
                     <select
                       value={sortByPesquisa}
                       onChange={(e) => setSortByPesquisa(e.target.value as "nome" | "data" | "status")}
-                      className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-sm text-slate-100 outline-none focus:border-purple-400 transition"
+                      className="rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-sm text-slate-100 outline-none focus:border-purple-400 transition"
                     >
                       <option value="data">Data de cadastro</option>
                       <option value="nome">Nome</option>
@@ -2720,7 +2769,7 @@ export default function Inicio() {
                 <div className="mt-4 flex items-center gap-3">
                       <button
                     onClick={() => setSortOrderPesquisa(sortOrderPesquisa === "asc" ? "desc" : "asc")}
-                    className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm text-slate-100 hover:bg-white/15 transition"
+                    className="flex items-center gap-2 rounded-xl border border-slate-700/50 bg-white/10 px-4 py-2 text-sm text-slate-100 hover:bg-white/15 transition"
                   >
                     {sortOrderPesquisa === "asc" ? (
                       <>
@@ -2756,9 +2805,9 @@ export default function Inicio() {
                   </div>
 
               {/* Resultados da Pesquisa */}
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg shadow-purple-900/30">
+              <div className="rounded-2xl border border-slate-700/50 bg-slate-800/50 p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-white">
+                  <h3 className="text-lg font-semibold text-slate-100">
                     Resultados
                     {clientesFiltradosPesquisa.length > 0 && (
                       <span className="ml-2 rounded-full bg-purple-500/30 px-2 py-0.5 text-sm font-normal text-purple-100">
@@ -2794,7 +2843,7 @@ export default function Inicio() {
                         XLSX.writeFile(wb, nomeArquivo);
                         showToast("Exportado para Excel com sucesso!", "success");
                       }}
-                      className="rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-green-900/40 hover:brightness-110 transition"
+                      className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-slate-100 shadow-sm hover:opacity-90 transition"
                     >
                       Exportar para Excel
                     </button>
@@ -2820,7 +2869,7 @@ export default function Inicio() {
                       return (
                           <div
                             key={c.id}
-                          className="rounded-xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition-all animate-fade-in hover-lift"
+                          className="rounded-xl border border-slate-700/50 bg-slate-800/50 p-5 hover:bg-white/10 transition-all animate-fade-in hover-lift"
                           style={{ animationDelay: `${index * 0.03}s` }}
                         >
                           <div className="flex items-start gap-4">
@@ -2834,7 +2883,7 @@ export default function Inicio() {
                                 <img src={c.fotoUrl} alt={c.nome} className="h-full w-full object-cover" />
                               ) : (
                                 <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-purple-500/30 to-fuchsia-500/30">
-                                  <span className="text-xl font-bold text-purple-300">{c.nome.charAt(0).toUpperCase()}</span>
+                                  <span className="text-xl font-bold text-slate-400">{c.nome.charAt(0).toUpperCase()}</span>
                                 </div>
                               )}
                             </button>
@@ -2846,7 +2895,7 @@ export default function Inicio() {
                                   <div className="flex items-center gap-3 mb-2">
                                     <button
                                       onClick={() => setShowPerfilClienteModal(c.id)}
-                                      className="text-lg font-semibold text-white hover:text-purple-300 transition"
+                                      className="text-lg font-semibold text-slate-100 hover:text-slate-400 transition"
                                     >
                                       {c.nome}
                                     </button>
@@ -2870,10 +2919,10 @@ export default function Inicio() {
                             </div>
 
                               {/* Estatísticas Rápidas */}
-                              <div className="grid grid-cols-3 gap-3 pt-2 border-t border-white/10">
+                              <div className="grid grid-cols-3 gap-3 pt-2 border-t border-slate-700/50">
                                 <div className="text-center">
                                   <p className="text-xs text-slate-400 mb-1">Anotações</p>
-                                  <p className="text-lg font-bold text-purple-300">{anotacoesCliente.length}</p>
+                                  <p className="text-lg font-bold text-slate-400">{anotacoesCliente.length}</p>
                               </div>
                                 <div className="text-center">
                                   <p className="text-xs text-slate-400 mb-1">Eventos</p>
@@ -2888,7 +2937,7 @@ export default function Inicio() {
 
                               {/* Anotações Recentes (Preview) */}
                               {anotacoesCliente.length > 0 && (
-                                <div className="rounded-lg border border-white/10 bg-white/5 p-3">
+                                <div className="rounded-lg border border-slate-700/50 bg-slate-800/50 p-3">
                                   <p className="text-xs font-semibold text-slate-300 mb-2">Última anotação:</p>
                                   <p className="text-sm text-slate-200 line-clamp-2">{anotacoesCliente[0].texto}</p>
                                   <p className="text-xs text-slate-500 mt-1">
@@ -2916,7 +2965,7 @@ export default function Inicio() {
                               <button
                                 onClick={() => gerarRelatorioCliente(c.id)}
                                 disabled={loadingPDF}
-                                className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-purple-900/40 hover:brightness-110 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold text-slate-100 shadow-lg shadow-purple-900/40 hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
                               >
                                 {loadingPDF ? (
                                   <>
@@ -2937,7 +2986,7 @@ export default function Inicio() {
                                   setActiveSection("Anotações");
                                   setClienteSelecionadoAnotacao(c.id);
                                 }}
-                                className="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 transition"
+                                className="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-slate-800/50 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 transition"
                               >
                                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -2959,7 +3008,7 @@ export default function Inicio() {
             <div className="mt-8 space-y-6 section-transition animate-fade-in">
               {/* Indicador de Filtros Ativos */}
               {(Object.keys(filtrosAtivos).length > 0) && (
-                <div className="rounded-2xl bg-purple-500/20 p-4 border border-purple-500/30 animate-bounce-in">
+                <div className="rounded-2xl bg-purple-500/20 p-4 border border-slate-600/50 animate-bounce-in">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-sm text-purple-200 font-semibold">Filtros ativos:</span>
@@ -2986,14 +3035,14 @@ export default function Inicio() {
 
               {/* Cards de Estatísticas */}
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <div className="rounded-2xl bg-gradient-to-br from-purple-500/20 to-purple-900/20 p-5 shadow-lg shadow-purple-900/30 animate-scale-in hover-lift">
+                <div className="rounded-2xl bg-slate-700/30 p-5 shadow-sm animate-scale-in hover-lift">
                   <p className="text-sm text-purple-200 mb-1">Total de Clientes</p>
-                  <p className="text-3xl font-bold text-white">{clientesFiltradosParaGraficos.length}</p>
-                  <p className="text-xs text-purple-300 mt-1">Cadastrados no sistema</p>
+                  <p className="text-3xl font-bold text-slate-100">{clientesFiltradosParaGraficos.length}</p>
+                  <p className="text-xs text-slate-400 mt-1">Cadastrados no sistema</p>
                 </div>
-                <div className="rounded-2xl bg-gradient-to-br from-fuchsia-500/20 to-fuchsia-900/20 p-5 shadow-lg shadow-fuchsia-900/30 animate-scale-in hover-lift" style={{ animationDelay: "0.1s" }}>
+                <div className="rounded-2xl bg-slate-700/30 p-5 shadow-lg shadow-fuchsia-900/30 animate-scale-in hover-lift" style={{ animationDelay: "0.1s" }}>
                   <p className="text-sm text-fuchsia-200 mb-1">Clientes Ativos</p>
-                  <p className="text-3xl font-bold text-white">
+                  <p className="text-3xl font-bold text-slate-100">
                     {clientesFiltradosParaGraficos.filter((c) => c.status === "Ativo").length}
                   </p>
                   <p className="text-xs text-fuchsia-300 mt-1">
@@ -3005,16 +3054,16 @@ export default function Inicio() {
                     % do total
                   </p>
                 </div>
-                <div className="rounded-2xl bg-gradient-to-br from-indigo-500/20 to-indigo-900/20 p-5 shadow-lg shadow-indigo-900/30 animate-scale-in hover-lift" style={{ animationDelay: "0.2s" }}>
+                <div className="rounded-2xl bg-slate-700/30 p-5 shadow-lg shadow-indigo-900/30 animate-scale-in hover-lift" style={{ animationDelay: "0.2s" }}>
                   <p className="text-sm text-indigo-200 mb-1">Em Avaliação</p>
-                  <p className="text-3xl font-bold text-white">
+                  <p className="text-3xl font-bold text-slate-100">
                     {clientesFiltradosParaGraficos.filter((c) => c.status === "Em avaliação").length}
                   </p>
                   <p className="text-xs text-indigo-300 mt-1">Requerem atenção</p>
                 </div>
-                <div className="rounded-2xl bg-gradient-to-br from-emerald-500/20 to-emerald-900/20 p-5 shadow-lg shadow-emerald-900/30 animate-scale-in hover-lift" style={{ animationDelay: "0.3s" }}>
+                <div className="rounded-2xl bg-slate-700/30 p-5 shadow-lg shadow-emerald-900/30 animate-scale-in hover-lift" style={{ animationDelay: "0.3s" }}>
                   <p className="text-sm text-emerald-200 mb-1">Total de Anotações</p>
-                  <p className="text-3xl font-bold text-white">
+                  <p className="text-3xl font-bold text-slate-100">
                     {anotacoes.length}
                   </p>
                   <p className="text-xs text-emerald-300 mt-1">Registros de acompanhamento</p>
@@ -3024,9 +3073,9 @@ export default function Inicio() {
               {/* Gráficos */}
               <div className="grid gap-6 lg:grid-cols-2">
                 {/* Gráfico de Barras - Status */}
-                <div className="rounded-2xl bg-gradient-to-br from-white/10 to-white/5 p-6 shadow-xl shadow-purple-900/40 animate-fade-in hover-lift border border-white/10">
-                  <h3 className="text-lg font-bold text-white mb-1">Distribuição por Status</h3>
-                  <p className="text-xs text-purple-300 mb-4">Status atual dos seus clientes</p>
+                <div className="rounded-xl bg-slate-800/50 p-6 border border-slate-700/50 animate-fade-in">
+                  <h3 className="text-lg font-semibold text-slate-100 mb-1">Distribuição por Status</h3>
+                  <p className="text-xs text-slate-400 mb-4">Status atual dos seus clientes</p>
                   <ResponsiveContainer width="100%" height={280}>
                     <BarChart
                       data={[
@@ -3045,20 +3094,7 @@ export default function Inicio() {
                       ]}
                       margin={{ top: 20, right: 20, left: 0, bottom: 5 }}
                     >
-                      <defs>
-                        <linearGradient id="gradientAtivo" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#4ade80" />
-                          <stop offset="100%" stopColor="#16a34a" />
-                        </linearGradient>
-                        <linearGradient id="gradientInativo" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#f87171" />
-                          <stop offset="100%" stopColor="#dc2626" />
-                        </linearGradient>
-                        <linearGradient id="gradientAvaliacao" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#fbbf24" />
-                          <stop offset="100%" stopColor="#d97706" />
-                        </linearGradient>
-                      </defs>
+                      <defs></defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" vertical={false} />
                       <XAxis 
                         dataKey="name" 
@@ -3073,13 +3109,13 @@ export default function Inicio() {
                       />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: 'rgba(15, 23, 42, 0.95)', 
-                          border: '1px solid rgba(168, 85, 247, 0.3)', 
-                          borderRadius: '12px',
-                          boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
+                          backgroundColor: 'rgba(30, 41, 59, 0.98)', 
+                          border: '1px solid rgba(148, 163, 184, 0.2)', 
+                          borderRadius: '8px',
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
                         }}
-                        itemStyle={{ color: '#e2e8f0' }}
-                        cursor={{ fill: 'rgba(168, 85, 247, 0.1)' }}
+                        itemStyle={{ color: '#f1f5f9' }}
+                        cursor={{ fill: 'rgba(148, 163, 184, 0.1)' }}
                       />
                       <Bar
                         dataKey="valor"
@@ -3113,13 +3149,13 @@ export default function Inicio() {
                           const statuses = ["Ativo", "Inativo", "Em avaliação"];
                           const statusSelecionado = statuses[index];
                           const isFiltered = filtrosAtivos.status && filtrosAtivos.status !== statusSelecionado;
-                          const gradients = ["url(#gradientAtivo)", "url(#gradientInativo)", "url(#gradientAvaliacao)"];
+                          const colors = ["#22c55e", "#ef4444", "#f59e0b"];
+                          const opacity = isFiltered ? 0.3 : 1;
                             return (
                             <Cell 
                               key={`cell-${index}`} 
-                              fill={gradients[index]} 
-                              opacity={isFiltered ? 0.4 : 1}
-                              style={{ filter: filtrosAtivos.status === statusSelecionado ? "drop-shadow(0 0 6px rgba(255,255,255,0.3))" : "none" }}
+                              fill={colors[index]}
+                              opacity={opacity}
                             />
                           );
                         })}
@@ -3131,9 +3167,9 @@ export default function Inicio() {
 
                 {/* Gráfico de Gênero */}
                 {clientesFiltradosParaGraficos.filter((c) => c.genero).length > 0 && (
-                  <div className="rounded-2xl bg-gradient-to-br from-white/10 to-white/5 p-6 shadow-xl shadow-purple-900/40 animate-fade-in hover-lift border border-white/10">
-                    <h3 className="text-lg font-bold text-white mb-1">Distribuição por Gênero</h3>
-                    <p className="text-xs text-purple-300 mb-4">Perfil demográfico dos seus clientes</p>
+                  <div className="rounded-2xl bg-slate-800/50 p-6 shadow-sm animate-fade-in hover-lift border border-slate-700/50">
+                    <h3 className="text-lg font-bold text-slate-100 mb-1">Distribuição por Gênero</h3>
+                    <p className="text-xs text-slate-400 mb-4">Perfil demográfico dos seus clientes</p>
                     <ResponsiveContainer width="100%" height={280}>
                       <PieChart>
                         <defs>
@@ -3194,16 +3230,13 @@ export default function Inicio() {
                                 acc[c.genero] = (acc[c.genero] || 0) + 1;
                                 return acc;
                               }, {});
-                            const gradients = ["url(#gradientGenero1)", "url(#gradientGenero2)", "url(#gradientGenero3)", "url(#gradientGenero4)", "url(#gradientGenero5)"];
+                            const colors = ["#3b82f6", "#ec4899", "#6366f1", "#8b5cf6", "#a855f7"];
                             return Object.keys(generos).map((genero, index) => (
                               <Cell 
                                 key={`cell-${index}`} 
-                                fill={gradients[index % gradients.length]} 
-                                style={{ 
-                                  cursor: "pointer", 
-                                  opacity: filtrosAtivos.genero && filtrosAtivos.genero !== genero ? 0.4 : 1,
-                                  filter: filtrosAtivos.genero === genero ? "drop-shadow(0 0 8px #a855f7)" : "none"
-                                }} 
+                                fill={colors[index % colors.length]}
+                                opacity={filtrosAtivos.genero && filtrosAtivos.genero !== genero ? 0.3 : 1}
+                                style={{ cursor: "pointer" }} 
                               />
                             ));
                           })()}
@@ -3223,15 +3256,15 @@ export default function Inicio() {
                         />
                       </PieChart>
                     </ResponsiveContainer>
-                    <p className="text-xs text-purple-400/70 mt-2 text-center italic">Clique nos segmentos para filtrar</p>
+                    <p className="text-xs text-slate-400 mt-2 text-center">Clique nos segmentos para filtrar</p>
                   </div>
                 )}
 
                 {/* Gráfico de Estados Emocionais nas Anotações */}
                 {anotacoes.filter(a => a.estadoEmocional).length > 0 && (
-                  <div className="rounded-2xl bg-gradient-to-br from-white/10 to-white/5 p-6 shadow-xl shadow-purple-900/40 animate-fade-in hover-lift border border-white/10">
-                    <h3 className="text-lg font-bold text-white mb-1">Estados Emocionais</h3>
-                    <p className="text-xs text-purple-300 mb-4">Análise das anotações de acompanhamento</p>
+                  <div className="rounded-xl bg-slate-800/50 p-6 border border-slate-700/50 animate-fade-in">
+                    <h3 className="text-lg font-semibold text-slate-100 mb-1">Estados Emocionais</h3>
+                    <p className="text-xs text-slate-400 mb-4">Análise das anotações de acompanhamento</p>
                     <ResponsiveContainer width="100%" height={280}>
                       <BarChart
                         data={(() => {
@@ -3244,22 +3277,6 @@ export default function Inicio() {
                         margin={{ top: 20, right: 20, left: 0, bottom: 5 }}
                       >
                         <defs>
-                          <linearGradient id="gradientEstadoPositivo" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#4ade80" />
-                            <stop offset="100%" stopColor="#16a34a" />
-                          </linearGradient>
-                          <linearGradient id="gradientEstadoNeutro" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#94a3b8" />
-                            <stop offset="100%" stopColor="#64748b" />
-                          </linearGradient>
-                          <linearGradient id="gradientEstadoAtencao" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#fbbf24" />
-                            <stop offset="100%" stopColor="#d97706" />
-                          </linearGradient>
-                          <linearGradient id="gradientEstadoCritico" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#f87171" />
-                            <stop offset="100%" stopColor="#dc2626" />
-                          </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" vertical={false} />
                         <XAxis 
@@ -3275,13 +3292,13 @@ export default function Inicio() {
                         />
                         <Tooltip
                           contentStyle={{
-                            backgroundColor: 'rgba(15, 23, 42, 0.95)', 
-                            border: '1px solid rgba(168, 85, 247, 0.3)', 
-                            borderRadius: '12px',
-                            boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
+                            backgroundColor: 'rgba(30, 41, 59, 0.98)', 
+                            border: '1px solid rgba(148, 163, 184, 0.2)', 
+                            borderRadius: '8px',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
                           }}
-                          itemStyle={{ color: '#e2e8f0' }}
-                          cursor={{ fill: 'rgba(168, 85, 247, 0.1)' }}
+                          itemStyle={{ color: '#f1f5f9' }}
+                          cursor={{ fill: 'rgba(148, 163, 184, 0.1)' }}
                         />
                         <Bar dataKey="quantidade" radius={[8, 8, 0, 0]}>
                           {(() => {
@@ -3291,62 +3308,33 @@ export default function Inicio() {
                               quantidade: anotacoes.filter(a => a.estadoEmocional === estado).length,
                             })).filter(item => item.quantidade > 0);
                             
-                            return data.map((entry) => {
-                              let gradient = "url(#gradientEstadoNeutro)";
-                              if (entry.name === "Colaborativo" || entry.name === "Motivado") {
-                                gradient = "url(#gradientEstadoPositivo)";
-                              } else if (entry.name === "Ansioso") {
-                                gradient = "url(#gradientEstadoAtencao)";
-                              } else if (entry.name === "Estressado" || entry.name === "Desmotivado") {
-                                gradient = "url(#gradientEstadoCritico)";
-                              }
-                              return <Cell key={`cell-${entry.name}`} fill={gradient} />;
-                            });
+                            const colorMap: Record<string, string> = {
+                              "Colaborativo": "#22c55e",
+                              "Motivado": "#22c55e",
+                              "Neutro": "#94a3b8",
+                              "Ansioso": "#f59e0b",
+                              "Estressado": "#ef4444",
+                              "Desmotivado": "#ef4444"
+                            };
+                            return data.map((entry) => (
+                              <Cell key={`cell-${entry.name}`} fill={colorMap[entry.name] || "#94a3b8"} />
+                            ));
                           })()}
                         </Bar>
                       </BarChart>
                     </ResponsiveContainer>
-                    <p className="text-xs text-purple-400/70 mt-2 text-center italic">Baseado nos registros de acompanhamento</p>
+                    <p className="text-xs text-slate-400 mt-2 text-center">Baseado nos registros de acompanhamento</p>
                   </div>
                 )}
 
                 {/* Gráfico de Tipos de Acompanhamento */}
                 {anotacoes.filter(a => a.tipoAcompanhamento).length > 0 && (
-                  <div className="rounded-2xl bg-gradient-to-br from-white/10 to-white/5 p-6 shadow-xl shadow-purple-900/40 animate-fade-in hover-lift border border-white/10">
-                    <h3 className="text-lg font-bold text-white mb-1">Tipos de Acompanhamento</h3>
-                    <p className="text-xs text-purple-300 mb-4">Natureza das intervenções realizadas</p>
+                  <div className="rounded-2xl bg-slate-800/50 p-6 shadow-sm animate-fade-in hover-lift border border-slate-700/50">
+                    <h3 className="text-lg font-bold text-slate-100 mb-1">Tipos de Acompanhamento</h3>
+                    <p className="text-xs text-slate-400 mb-4">Natureza das intervenções realizadas</p>
                     <ResponsiveContainer width="100%" height={280}>
                       <PieChart>
-                        <defs>
-                          <linearGradient id="gradientRotina" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#a855f7" />
-                            <stop offset="100%" stopColor="#7c3aed" />
-                          </linearGradient>
-                          <linearGradient id="gradientDesenv" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#06b6d4" />
-                            <stop offset="100%" stopColor="#0891b2" />
-                          </linearGradient>
-                          <linearGradient id="gradientOrient" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#10b981" />
-                            <stop offset="100%" stopColor="#059669" />
-                          </linearGradient>
-                          <linearGradient id="gradientFeedback" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#f59e0b" />
-                            <stop offset="100%" stopColor="#d97706" />
-                          </linearGradient>
-                          <linearGradient id="gradientAval" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#3b82f6" />
-                            <stop offset="100%" stopColor="#2563eb" />
-                          </linearGradient>
-                          <linearGradient id="gradientConflito" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#f97316" />
-                            <stop offset="100%" stopColor="#ea580c" />
-                          </linearGradient>
-                          <linearGradient id="gradientCrise" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#ef4444" />
-                            <stop offset="100%" stopColor="#dc2626" />
-                          </linearGradient>
-                        </defs>
+                        <defs></defs>
                         <Pie
                           data={(() => {
                             const tipos = ["Rotina", "Desenvolvimento", "Orientação", "Feedback", "Avaliação", "Conflito", "Crise"];
@@ -3367,14 +3355,14 @@ export default function Inicio() {
                         >
                           {(() => {
                             const tipos = ["Rotina", "Desenvolvimento", "Orientação", "Feedback", "Avaliação", "Conflito", "Crise"];
-                            const gradientMap: Record<string, string> = {
-                              "Rotina": "url(#gradientRotina)",
-                              "Desenvolvimento": "url(#gradientDesenv)",
-                              "Orientação": "url(#gradientOrient)",
-                              "Feedback": "url(#gradientFeedback)",
-                              "Avaliação": "url(#gradientAval)",
-                              "Conflito": "url(#gradientConflito)",
-                              "Crise": "url(#gradientCrise)",
+                            const colorMap: Record<string, string> = {
+                              "Rotina": "#8b5cf6",
+                              "Desenvolvimento": "#06b6d4",
+                              "Orientação": "#10b981",
+                              "Feedback": "#f59e0b",
+                              "Avaliação": "#3b82f6",
+                              "Conflito": "#f97316",
+                              "Crise": "#ef4444",
                             };
                             const data = tipos.map(tipo => ({
                               name: tipo,
@@ -3382,7 +3370,7 @@ export default function Inicio() {
                             })).filter(item => item.value > 0);
                             
                             return data.map((entry) => (
-                              <Cell key={`cell-${entry.name}`} fill={gradientMap[entry.name] || "url(#gradientRotina)"} />
+                              <Cell key={`cell-${entry.name}`} fill={colorMap[entry.name] || "#8b5cf6"} />
                             ));
                           })()}
                         </Pie>
@@ -3401,27 +3389,27 @@ export default function Inicio() {
                         />
                       </PieChart>
                     </ResponsiveContainer>
-                    <p className="text-xs text-purple-400/70 mt-2 text-center italic">Distribuição das intervenções realizadas</p>
+                    <p className="text-xs text-slate-400 mt-2 text-center">Distribuição das intervenções realizadas</p>
                   </div>
                 )}
               </div>
 
               {/* Tabela Resumo */}
-              <div className="rounded-2xl bg-white/5 p-6 shadow-lg shadow-purple-900/30 animate-fade-in hover-lift">
-                <h3 className="text-lg font-semibold text-white mb-4">Resumo Detalhado</h3>
+              <div className="rounded-2xl bg-slate-800/50 p-6 shadow-sm animate-fade-in hover-lift">
+                <h3 className="text-lg font-semibold text-slate-100 mb-4">Resumo Detalhado</h3>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm text-slate-300">
                     <thead>
-                      <tr className="border-b border-white/10">
-                        <th className="text-left py-3 px-4 font-semibold text-white">Categoria</th>
-                        <th className="text-right py-3 px-4 font-semibold text-white">Quantidade</th>
-                        <th className="text-right py-3 px-4 font-semibold text-white">Percentual</th>
+                      <tr className="border-b border-slate-700/50">
+                        <th className="text-left py-3 px-4 font-semibold text-slate-100">Categoria</th>
+                        <th className="text-right py-3 px-4 font-semibold text-slate-100">Quantidade</th>
+                        <th className="text-right py-3 px-4 font-semibold text-slate-100">Percentual</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr className="border-b border-white/5">
                         <td className="py-3 px-4">Total de Clientes</td>
-                        <td className="text-right py-3 px-4 font-semibold text-white">{clientesFiltradosParaGraficos.length}</td>
+                        <td className="text-right py-3 px-4 font-semibold text-slate-100">{clientesFiltradosParaGraficos.length}</td>
                         <td className="text-right py-3 px-4">100%</td>
                       </tr>
                       <tr className="border-b border-white/5">
@@ -3463,10 +3451,10 @@ export default function Inicio() {
           {activeSection === "Agenda" && (
             <div className="mt-8 space-y-6 section-transition animate-fade-in">
               {/* Conexão com Google Calendar */}
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg shadow-purple-900/30">
+              <div className="rounded-2xl border border-slate-700/50 bg-slate-800/50 p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h2 className="text-xl font-semibold text-white mb-2">📅 Google Calendar</h2>
+                    <h2 className="text-xl font-semibold text-slate-100 mb-2">📅 Google Calendar</h2>
                     <p className="text-sm text-slate-300">
                       Conecte sua conta do Google para sincronizar eventos automaticamente.
                     </p>
@@ -3483,7 +3471,7 @@ export default function Inicio() {
                             setEventos([]);
                             showToast("Desconectado do Google Calendar", "info");
                           }}
-                          className="rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 transition"
+                          className="rounded-xl border border-white/20 bg-slate-800/50 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 transition"
                         >
                           Desconectar
                         </button>
@@ -3495,7 +3483,7 @@ export default function Inicio() {
                           showToast("Conectado ao Google Calendar com sucesso!", "success");
                           carregarEventosGoogle();
                         }}
-                        className="rounded-xl bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-900/40 hover:brightness-110 transition flex items-center gap-2"
+                        className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-slate-100 shadow-sm hover:opacity-90 transition flex items-center gap-2"
                       >
                         <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -3513,9 +3501,9 @@ export default function Inicio() {
               {/* Calendário e Eventos */}
               <div className="grid gap-6 lg:grid-cols-3">
                 {/* Calendário */}
-                <div className="lg:col-span-2 rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg shadow-purple-900/30">
+                <div className="lg:col-span-2 rounded-2xl border border-slate-700/50 bg-slate-800/50 p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-white">Calendário</h3>
+                    <h3 className="text-lg font-semibold text-slate-100">Calendário</h3>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => {
@@ -3592,9 +3580,9 @@ export default function Inicio() {
                               setShowEventModal(true);
                             }
                           }}
-                          className={`min-h-[60px] rounded-lg border border-white/10 p-2 cursor-pointer transition hover:bg-white/10 ${
+                          className={`min-h-[60px] rounded-lg border border-slate-700/50 p-2 cursor-pointer transition hover:bg-white/10 ${
                             !dia || !isMesAtual ? "opacity-30" : ""
-                          } ${isHoje ? "bg-purple-500/20 border-purple-400/50" : "bg-white/5"}`}
+                          } ${isHoje ? "bg-purple-500/20 border-purple-400/50" : "bg-slate-800/50"}`}
                         >
                           {dia && (
                             <>
@@ -3650,9 +3638,9 @@ export default function Inicio() {
                 </div>
 
                 {/* Lista de Eventos */}
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg shadow-purple-900/30">
+                <div className="rounded-2xl border border-slate-700/50 bg-slate-800/50 p-6 shadow-sm">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-white">Próximos Eventos</h3>
+                    <h3 className="text-lg font-semibold text-slate-100">Próximos Eventos</h3>
                     <button
                       onClick={() => {
                         const hoje = new Date();
@@ -3674,7 +3662,7 @@ export default function Inicio() {
                         });
                         setShowEventModal(true);
                       }}
-                      className="rounded-lg bg-gradient-to-r from-purple-500 to-fuchsia-500 px-3 py-1.5 text-xs font-semibold text-white hover:brightness-110 transition"
+                      className="rounded-lg bg-gradient-to-r from-purple-500 to-fuchsia-500 px-3 py-1.5 text-xs font-semibold text-slate-100 hover:opacity-90 transition"
                     >
                       + Novo
                     </button>
@@ -3708,7 +3696,7 @@ export default function Inicio() {
                           return (
                             <div
                               key={evento.id || index}
-                              className="rounded-xl border border-white/10 bg-white/5 p-3 hover:bg-white/10 transition"
+                              className="rounded-xl border border-slate-700/50 bg-slate-800/50 p-3 hover:bg-white/10 transition"
                             >
                               <div className="flex items-start justify-between gap-2">
                                 <div 
@@ -3733,7 +3721,7 @@ export default function Inicio() {
                               }}
                             >
                                   <div className="flex items-center gap-2 mb-1">
-                                    <p className="text-sm font-semibold text-white">
+                                    <p className="text-sm font-semibold text-slate-100">
                                     {evento.titulo || evento.summary || "Sem título"}
                                   </p>
                                     {evento.tipo && (
@@ -3751,7 +3739,7 @@ export default function Inicio() {
                                     })}
                                   </p>
                                   {cliente && (
-                                    <p className="text-xs text-purple-300">
+                                    <p className="text-xs text-slate-400">
                                       👤 {cliente.nome}
                                     </p>
                                   )}
@@ -3789,9 +3777,9 @@ export default function Inicio() {
               {/* Modal de Criar/Editar Evento */}
               {showEventModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                  <div className="rounded-2xl border border-white/10 bg-[#0b0416] p-6 w-full max-w-md shadow-2xl animate-scale-in">
+                  <div className="rounded-2xl border border-slate-700/50 bg-[#0b0416] p-6 w-full max-w-md shadow-2xl animate-scale-in">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-xl font-semibold text-white">
+                      <h3 className="text-xl font-semibold text-slate-100">
                         {eventForm.id ? "Editar Evento" : "Novo Evento"}
                       </h3>
                       <button
@@ -3813,7 +3801,7 @@ export default function Inicio() {
                             receitaGerada: false,
                           });
                         }}
-                        className="text-slate-400 hover:text-white transition"
+                        className="text-slate-400 hover:text-slate-100 transition"
                       >
                         ✕
                       </button>
@@ -3826,7 +3814,7 @@ export default function Inicio() {
                           value={eventForm.titulo}
                           onChange={(e) => setEventForm({ ...eventForm, titulo: e.target.value })}
                           placeholder="Título do evento"
-                          className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                          className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                         />
                       </div>
                       
@@ -3835,7 +3823,7 @@ export default function Inicio() {
                         <select
                           value={eventForm.tipo}
                           onChange={(e) => setEventForm({ ...eventForm, tipo: e.target.value })}
-                          className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                          className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                         >
                           <option value="Consulta">Consulta</option>
                           <option value="Avaliação">Avaliação</option>
@@ -3855,7 +3843,7 @@ export default function Inicio() {
                             type="date"
                             value={eventForm.dataInicio}
                             onChange={(e) => setEventForm({ ...eventForm, dataInicio: e.target.value })}
-                            className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                            className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                           />
                         </div>
                         <div>
@@ -3864,7 +3852,7 @@ export default function Inicio() {
                             type="time"
                             value={eventForm.horaInicio}
                             onChange={(e) => setEventForm({ ...eventForm, horaInicio: e.target.value })}
-                            className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                            className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                           />
                         </div>
                       </div>
@@ -3876,7 +3864,7 @@ export default function Inicio() {
                             type="date"
                             value={eventForm.dataFim}
                             onChange={(e) => setEventForm({ ...eventForm, dataFim: e.target.value })}
-                            className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                            className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                           />
                         </div>
                         <div>
@@ -3885,7 +3873,7 @@ export default function Inicio() {
                             type="time"
                             value={eventForm.horaFim}
                             onChange={(e) => setEventForm({ ...eventForm, horaFim: e.target.value })}
-                            className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                            className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                           />
                         </div>
                       </div>
@@ -3895,7 +3883,7 @@ export default function Inicio() {
                         <select
                           value={eventForm.clienteId}
                           onChange={(e) => setEventForm({ ...eventForm, clienteId: e.target.value })}
-                          className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                          className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                         >
                           <option value="">Selecione um cliente</option>
                           {clientes.map((c) => (
@@ -3912,7 +3900,7 @@ export default function Inicio() {
                           value={eventForm.local}
                           onChange={(e) => setEventForm({ ...eventForm, local: e.target.value })}
                           placeholder="Local do evento"
-                          className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                          className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                         />
                       </div>
 
@@ -3923,7 +3911,7 @@ export default function Inicio() {
                           value={eventForm.valor}
                           onChange={(e) => setEventForm({ ...eventForm, valor: e.target.value })}
                           placeholder="0,00"
-                          className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                          className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                         />
                         <p className="text-xs text-slate-400 mt-1">
                           Se preenchido e evento marcado como realizado, gerará receita automaticamente
@@ -3961,7 +3949,7 @@ export default function Inicio() {
                           value={eventForm.descricao}
                           onChange={(e) => setEventForm({ ...eventForm, descricao: e.target.value })}
                           placeholder="Descrição do evento"
-                          className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                          className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                           rows={3}
                         />
                       </div>
@@ -4016,7 +4004,7 @@ export default function Inicio() {
                               receitaGerada: false,
                             });
                           }}
-                          className={`rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 transition ${eventForm.id ? "flex-1" : ""}`}
+                          className={`rounded-xl border border-white/20 bg-slate-800/50 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 transition ${eventForm.id ? "flex-1" : ""}`}
                         >
                           Cancelar
                         </button>
@@ -4028,7 +4016,7 @@ export default function Inicio() {
                             }
                             criarEvento();
                           }}
-                          className={`rounded-xl bg-gradient-to-r from-purple-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold text-white hover:brightness-110 transition ${eventForm.id ? "flex-1" : "flex-1"}`}
+                          className={`rounded-xl bg-gradient-to-r from-purple-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold text-slate-100 hover:opacity-90 transition ${eventForm.id ? "flex-1" : "flex-1"}`}
                         >
                           {eventForm.id ? "Salvar Alterações" : "Salvar Evento"}
                         </button>
@@ -4043,10 +4031,10 @@ export default function Inicio() {
           {activeSection === "Relatórios" && (
             <div className="mt-8 space-y-6 section-transition animate-fade-in">
               {/* Seleção de Tipo de Relatório */}
-              <div className="rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-500/10 to-fuchsia-500/10 p-6 shadow-lg shadow-purple-900/30 hover-lift">
+              <div className="rounded-2xl border border-slate-600/50 bg-slate-800/30 p-6 shadow-sm hover-lift">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-2">📄 Relatórios em PDF</h2>
+                    <h2 className="text-2xl font-bold text-slate-100 mb-2">📄 Relatórios em PDF</h2>
                     <p className="text-sm text-slate-300 mb-2">
                       Escolha entre relatório semanal ou mensal. Ambos incluem estatísticas, gráficos e análises detalhadas.
                     </p>
@@ -4065,8 +4053,8 @@ export default function Inicio() {
                     onClick={() => setTipoRelatorio("semanal")}
                     className={`rounded-xl p-4 border-2 transition ${
                       tipoRelatorio === "semanal"
-                        ? "border-purple-400 bg-purple-500/20 text-white"
-                        : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
+                        ? "border-purple-400 bg-purple-500/20 text-slate-100"
+                        : "border-slate-700/50 bg-slate-800/50 text-slate-300 hover:bg-white/10"
                     }`}
                   >
                     <div className="text-center">
@@ -4082,8 +4070,8 @@ export default function Inicio() {
                     onClick={() => setTipoRelatorio("mensal")}
                     className={`rounded-xl p-4 border-2 transition ${
                       tipoRelatorio === "mensal"
-                        ? "border-fuchsia-400 bg-fuchsia-500/20 text-white"
-                        : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
+                        ? "border-fuchsia-400 bg-fuchsia-500/20 text-slate-100"
+                        : "border-slate-700/50 bg-slate-800/50 text-slate-300 hover:bg-white/10"
                     }`}
                   >
                     <div className="text-center">
@@ -4123,7 +4111,7 @@ export default function Inicio() {
                 <button
                   onClick={() => tipoRelatorio === "semanal" ? gerarRelatorioPDF() : gerarRelatorioPDFMensal()}
                   disabled={clientes.length === 0 || loadingPDF}
-                  className={`w-full rounded-xl px-6 py-4 text-base font-bold text-white shadow-lg hover:brightness-110 transition disabled:cursor-not-allowed disabled:opacity-50 ${
+                  className={`w-full rounded-xl px-6 py-4 text-base font-bold text-slate-100 shadow-lg hover:opacity-90 transition disabled:cursor-not-allowed disabled:opacity-50 ${
                     tipoRelatorio === "semanal"
                       ? "bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-600 shadow-purple-900/50"
                       : "bg-gradient-to-r from-fuchsia-600 via-purple-600 to-pink-600 shadow-fuchsia-900/50"
@@ -4143,10 +4131,10 @@ export default function Inicio() {
               </div>
 
               {/* Backup e Restauração */}
-              <div className="rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 p-6 shadow-lg shadow-indigo-900/30 hover-lift">
+              <div className="rounded-2xl border border-slate-600/50 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 p-6 shadow-lg shadow-indigo-900/30 hover-lift">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h2 className="text-xl font-semibold text-white mb-2">💾 Backup e Restauração</h2>
+                    <h2 className="text-xl font-semibold text-slate-100 mb-2">💾 Backup e Restauração</h2>
                     <p className="text-sm text-slate-300 mb-2">
                       Exporte todos os seus dados em JSON ou importe um backup anterior.
                     </p>
@@ -4158,7 +4146,7 @@ export default function Inicio() {
                 <div className="grid gap-3 sm:grid-cols-2">
                   <button
                     onClick={exportarJSON}
-                    className="rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-900/40 hover:brightness-110 transition"
+                    className="rounded-xl bg-slate-600 px-4 py-3 text-sm font-semibold text-slate-100 shadow-lg shadow-indigo-900/40 hover:opacity-90 transition"
                   >
                     📥 Exportar JSON Completo
                   </button>
@@ -4171,18 +4159,18 @@ export default function Inicio() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg shadow-purple-900/30 hover-lift">
-                <h2 className="text-xl font-semibold text-white mb-2">Exportar Base de Dados</h2>
+              <div className="rounded-2xl border border-slate-700/50 bg-slate-800/50 p-6 shadow-sm hover-lift">
+                <h2 className="text-xl font-semibold text-slate-100 mb-2">Exportar Base de Dados</h2>
                 <p className="text-sm text-slate-300 mb-6">
                   Baixe relatórios completos em formato Excel (.xlsx) com todos os clientes cadastrados.
                 </p>
 
                 <div className="grid gap-4 sm:grid-cols-1">
                   {/* Card Exportação */}
-                  <div className="rounded-xl border border-white/10 bg-white/5 p-5 animate-scale-in hover-lift">
+                  <div className="rounded-xl border border-slate-700/50 bg-slate-800/50 p-5 animate-scale-in hover-lift">
                     <div className="flex items-start justify-between mb-4">
                       <div>
-                        <h3 className="text-lg font-semibold text-white mb-1">Exportar Clientes</h3>
+                        <h3 className="text-lg font-semibold text-slate-100 mb-1">Exportar Clientes</h3>
                         <p className="text-xs text-slate-400">Exporte todos os clientes cadastrados</p>
                       </div>
                       <span className="rounded-full bg-purple-500/20 px-3 py-1 text-xs font-semibold text-purple-100">
@@ -4195,7 +4183,7 @@ export default function Inicio() {
                     <button
                       onClick={() => exportarParaExcel()}
                       disabled={clientes.length === 0 || loadingExport !== null}
-                      className="w-full rounded-xl bg-gradient-to-r from-purple-500 via-fuchsia-500 to-indigo-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-900/40 hover:brightness-110 transition disabled:cursor-not-allowed disabled:opacity-50"
+                      className="w-full rounded-xl bg-slate-600 px-4 py-3 text-sm font-semibold text-slate-100 shadow-lg shadow-purple-900/40 hover:opacity-90 transition disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {loadingExport !== null ? (
                         <>
@@ -4211,7 +4199,7 @@ export default function Inicio() {
                   </div>
                   </div>
 
-                <div className="mt-6 rounded-xl border border-purple-500/30 bg-purple-500/10 p-4">
+                <div className="mt-6 rounded-xl border border-slate-600/50 bg-purple-500/10 p-4">
                   <p className="text-xs text-purple-200">
                     💡 <strong>Dica:</strong> Os arquivos são salvos automaticamente na pasta de Downloads com a data atual no nome.
                     Você pode abrir os arquivos .xlsx no Excel, Google Sheets ou qualquer planilha compatível.
@@ -4232,7 +4220,7 @@ export default function Inicio() {
                       {/* Card Saldo */}
                       <div className="rounded-2xl border border-green-500/30 bg-gradient-to-br from-green-500/10 to-emerald-500/10 p-6 shadow-lg shadow-green-900/30 hover-lift">
                         <div className="flex items-center justify-between mb-4">
-                          <h3 className="text-lg font-semibold text-white">Saldo</h3>
+                          <h3 className="text-lg font-semibold text-slate-100">Saldo</h3>
                           <span className="text-2xl">💰</span>
                         </div>
                         <p className={`text-3xl font-bold ${totais.saldo >= 0 ? "text-green-300" : "text-red-300"}`}>
@@ -4246,7 +4234,7 @@ export default function Inicio() {
                       {/* Card Receitas */}
                       <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 p-6 shadow-lg shadow-blue-900/30 hover-lift">
                         <div className="flex items-center justify-between mb-4">
-                          <h3 className="text-lg font-semibold text-white">Receitas</h3>
+                          <h3 className="text-lg font-semibold text-slate-100">Receitas</h3>
                           <span className="text-2xl">📈</span>
                         </div>
                         <p className="text-3xl font-bold text-blue-300">
@@ -4260,7 +4248,7 @@ export default function Inicio() {
                       {/* Card Despesas */}
                       <div className="rounded-2xl border border-red-500/30 bg-gradient-to-br from-red-500/10 to-pink-500/10 p-6 shadow-lg shadow-red-900/30 hover-lift">
                         <div className="flex items-center justify-between mb-4">
-                          <h3 className="text-lg font-semibold text-white">Despesas</h3>
+                          <h3 className="text-lg font-semibold text-slate-100">Despesas</h3>
                           <span className="text-2xl">📉</span>
                         </div>
                         <p className="text-3xl font-bold text-red-300">
@@ -4273,7 +4261,7 @@ export default function Inicio() {
                     </div>
 
                     {/* Filtros e Ações */}
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg shadow-purple-900/30">
+                    <div className="rounded-2xl border border-slate-700/50 bg-slate-800/50 p-6 shadow-sm">
                       <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                         <div className="flex items-center gap-4 flex-wrap">
                       <div>
@@ -4281,7 +4269,7 @@ export default function Inicio() {
                             <select
                               value={filtroPeriodo}
                               onChange={(e) => setFiltroPeriodo(e.target.value as any)}
-                              className="rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-slate-100 outline-none focus:border-purple-400"
+                              className="rounded-xl border border-slate-700/50 bg-white/10 px-4 py-2 text-slate-100 outline-none focus:border-purple-400"
                             >
                               <option value="hoje">Hoje</option>
                               <option value="semana">Esta Semana</option>
@@ -4296,7 +4284,7 @@ export default function Inicio() {
                             <select
                               value={filtroTipoTransacao}
                               onChange={(e) => setFiltroTipoTransacao(e.target.value as any)}
-                              className="rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-slate-100 outline-none focus:border-purple-400"
+                              className="rounded-xl border border-slate-700/50 bg-white/10 px-4 py-2 text-slate-100 outline-none focus:border-purple-400"
                             >
                               <option value="todos">Todos</option>
                               <option value="receita">Receitas</option>
@@ -4322,7 +4310,7 @@ export default function Inicio() {
                               });
                               setShowTransacaoModal(true);
                             }}
-                            className="rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-green-900/40 hover:brightness-110 transition"
+                            className="rounded-xl bg-emerald-600 px-6 py-3 text-sm font-semibold text-slate-100 shadow-sm hover:opacity-90 transition"
                           >
                             + Nova Receita
                           </button>
@@ -4342,7 +4330,7 @@ export default function Inicio() {
                               });
                               setShowTransacaoModal(true);
                             }}
-                            className="rounded-xl bg-gradient-to-r from-red-500 to-pink-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-red-900/40 hover:brightness-110 transition"
+                            className="rounded-xl bg-red-600 px-6 py-3 text-sm font-semibold text-slate-100 shadow-sm hover:opacity-90 transition"
                           >
                             + Nova Despesa
                           </button>
@@ -4352,8 +4340,8 @@ export default function Inicio() {
                       {/* Gráficos Financeiros */}
                       <div className="grid gap-6 md:grid-cols-2 mb-6">
                         {/* Gráfico Receitas vs Despesas */}
-                        <div className="rounded-xl border border-white/10 bg-white/5 p-6">
-                          <h3 className="text-lg font-semibold text-white mb-4">Receitas vs Despesas</h3>
+                        <div className="rounded-xl border border-slate-700/50 bg-slate-800/50 p-6">
+                          <h3 className="text-lg font-semibold text-slate-100 mb-4">Receitas vs Despesas</h3>
                           <ResponsiveContainer width="100%" height={250}>
                             <BarChart data={[
                               { name: "Receitas", valor: totais.receitasTotal },
@@ -4380,8 +4368,8 @@ export default function Inicio() {
 
                         {/* Gráfico de Despesas por Categoria */}
                         {totais.transacoesFiltradas.filter((t) => t.tipo === "despesa").length > 0 && (
-                          <div className="rounded-xl border border-white/10 bg-white/5 p-6">
-                            <h3 className="text-lg font-semibold text-white mb-4">Despesas por Categoria</h3>
+                          <div className="rounded-xl border border-slate-700/50 bg-slate-800/50 p-6">
+                            <h3 className="text-lg font-semibold text-slate-100 mb-4">Despesas por Categoria</h3>
                             <ResponsiveContainer width="100%" height={250}>
                               <PieChart>
                                 <Pie
@@ -4461,8 +4449,8 @@ export default function Inicio() {
 
                         {/* Gráfico de Evolução Temporal (Fluxo de Caixa) */}
                         {totais.transacoesFiltradas.length > 0 && (
-                          <div className="rounded-xl border border-white/10 bg-white/5 p-6 md:col-span-2">
-                            <h3 className="text-lg font-semibold text-white mb-4">Fluxo de Caixa (Evolução)</h3>
+                          <div className="rounded-xl border border-slate-700/50 bg-slate-800/50 p-6 md:col-span-2">
+                            <h3 className="text-lg font-semibold text-slate-100 mb-4">Fluxo de Caixa (Evolução)</h3>
                             <ResponsiveContainer width="100%" height={300}>
                               <LineChart
                                 data={(() => {
@@ -4544,7 +4532,7 @@ export default function Inicio() {
                                           </span>
                                         )}
                                       </div>
-                                      <p className="text-sm font-semibold text-white mb-1">{transacao.descricao}</p>
+                                      <p className="text-sm font-semibold text-slate-100 mb-1">{transacao.descricao}</p>
                                       <div className="flex items-center gap-4 text-xs text-slate-400">
                                         <span>{new Date(transacao.data).toLocaleDateString("pt-BR")}</span>
                                         <span>{transacao.formaPagamento}</span>
@@ -4600,9 +4588,9 @@ export default function Inicio() {
                     {/* Modal de Transação */}
                     {showTransacaoModal && (
                       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                        <div className="rounded-2xl border border-white/10 bg-[#0b0416] p-6 w-full max-w-md shadow-2xl animate-scale-in max-h-[90vh] overflow-y-auto">
+                        <div className="rounded-2xl border border-slate-700/50 bg-[#0b0416] p-6 w-full max-w-md shadow-2xl animate-scale-in max-h-[90vh] overflow-y-auto">
                           <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-semibold text-white">
+                            <h3 className="text-xl font-semibold text-slate-100">
                               {transacaoForm.id ? "Editar" : "Nova"} {transacaoForm.tipo === "receita" ? "Receita" : "Despesa"}
                             </h3>
                             <button
@@ -4621,7 +4609,7 @@ export default function Inicio() {
                                   pago: true,
                                 });
                               }}
-                              className="text-slate-400 hover:text-white transition"
+                              className="text-slate-400 hover:text-slate-100 transition"
                             >
                               ✕
                             </button>
@@ -4636,7 +4624,7 @@ export default function Inicio() {
                                   className={`rounded-xl border px-4 py-3 text-sm font-semibold transition ${
                                     transacaoForm.tipo === "receita"
                                       ? "border-green-400 bg-green-500/20 text-green-200"
-                                      : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
+                                      : "border-slate-700/50 bg-slate-800/50 text-slate-300 hover:bg-white/10"
                                   }`}
                                 >
                                   📈 Receita
@@ -4646,7 +4634,7 @@ export default function Inicio() {
                                   className={`rounded-xl border px-4 py-3 text-sm font-semibold transition ${
                                     transacaoForm.tipo === "despesa"
                                       ? "border-red-400 bg-red-500/20 text-red-200"
-                                      : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
+                                      : "border-slate-700/50 bg-slate-800/50 text-slate-300 hover:bg-white/10"
                                   }`}
                                 >
                                   📉 Despesa
@@ -4661,7 +4649,7 @@ export default function Inicio() {
                                 value={transacaoForm.valor}
                                 onChange={(e) => setTransacaoForm({ ...transacaoForm, valor: e.target.value })}
                                 placeholder="0,00"
-                                className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                                className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                               />
                             </div>
 
@@ -4672,7 +4660,7 @@ export default function Inicio() {
                                 value={transacaoForm.descricao}
                                 onChange={(e) => setTransacaoForm({ ...transacaoForm, descricao: e.target.value })}
                                 placeholder={transacaoForm.tipo === "receita" ? "Ex: Pagamento de sessão" : "Ex: Aluguel do consultório"}
-                                className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                                className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                               />
                             </div>
 
@@ -4683,7 +4671,7 @@ export default function Inicio() {
                                   type="date"
                                   value={transacaoForm.data}
                                   onChange={(e) => setTransacaoForm({ ...transacaoForm, data: e.target.value })}
-                                  className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                                  className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                                 />
                               </div>
                               <div>
@@ -4691,7 +4679,7 @@ export default function Inicio() {
                                 <select
                                   value={transacaoForm.formaPagamento}
                                   onChange={(e) => setTransacaoForm({ ...transacaoForm, formaPagamento: e.target.value as FormaPagamento })}
-                                  className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                                  className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                                 >
                                   <option value="Dinheiro">Dinheiro</option>
                                   <option value="PIX">PIX</option>
@@ -4710,7 +4698,7 @@ export default function Inicio() {
                                 <select
                                   value={transacaoForm.clienteId}
                                   onChange={(e) => setTransacaoForm({ ...transacaoForm, clienteId: e.target.value })}
-                                  className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                                  className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                                 >
                                   <option value="">Selecione um cliente</option>
                                   {clientes.map((c) => (
@@ -4728,7 +4716,7 @@ export default function Inicio() {
                                 <select
                                   value={transacaoForm.categoria}
                                   onChange={(e) => setTransacaoForm({ ...transacaoForm, categoria: e.target.value as CategoriaDespesa })}
-                                  className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                                  className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                                 >
                                   <option value="Aluguel">Aluguel</option>
                                   <option value="Equipamentos">Equipamentos</option>
@@ -4750,7 +4738,7 @@ export default function Inicio() {
                                 value={transacaoForm.observacoes}
                                 onChange={(e) => setTransacaoForm({ ...transacaoForm, observacoes: e.target.value })}
                                 placeholder="Observações adicionais..."
-                                className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                                className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                                 rows={3}
                               />
                             </div>
@@ -4786,16 +4774,16 @@ export default function Inicio() {
                                     pago: true,
                                   });
                                 }}
-                                className="flex-1 rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 transition"
+                                className="flex-1 rounded-xl border border-white/20 bg-slate-800/50 px-4 py-2 text-sm font-semibold text-slate-200 hover:bg-white/10 transition"
                               >
                                 Cancelar
                               </button>
                               <button
                                 onClick={salvarTransacao}
-                                className={`flex-1 rounded-xl px-4 py-2 text-sm font-semibold text-white hover:brightness-110 transition ${
+                                className={`flex-1 rounded-xl px-4 py-2 text-sm font-semibold text-slate-100 hover:opacity-90 transition ${
                                   transacaoForm.tipo === "receita"
-                                    ? "bg-gradient-to-r from-green-500 to-emerald-500"
-                                    : "bg-gradient-to-r from-red-500 to-pink-500"
+                                    ? "bg-emerald-600"
+                                    : "bg-red-600"
                                 }`}
                               >
                                 {transacaoForm.id ? "Salvar Alterações" : "Salvar"}
@@ -4815,8 +4803,8 @@ export default function Inicio() {
             <div className="mt-8 space-y-6 section-transition animate-fade-in">
               <div className="grid gap-6 lg:grid-cols-2">
                 {/* Formulário de Nova Anotação */}
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-lg shadow-purple-900/30">
-                  <h3 className="text-base font-semibold text-white mb-4">Nova Anotação</h3>
+                <div className="rounded-2xl border border-slate-700/50 bg-slate-800/50 p-5 shadow-sm">
+                  <h3 className="text-base font-semibold text-slate-100 mb-4">Nova Anotação</h3>
                   
                   <div className="space-y-4">
                     <div className="space-y-2">
@@ -4824,7 +4812,7 @@ export default function Inicio() {
                       <select
                         value={clienteSelecionadoAnotacao}
                         onChange={(e) => setClienteSelecionadoAnotacao(e.target.value)}
-                        className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                        className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                       >
                         <option value="" className="bg-slate-800 text-slate-400">Selecione um cliente...</option>
                         {clientes.map((c) => (
@@ -4846,7 +4834,7 @@ export default function Inicio() {
                           <select
                             value={estadoEmocionalAnotacao}
                             onChange={(e) => setEstadoEmocionalAnotacao(e.target.value as EstadoEmocional | "")}
-                            className="w-full rounded-lg border border-white/10 bg-white/10 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-purple-400"
+                            className="w-full rounded-lg border border-slate-700/50 bg-white/10 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-purple-400"
                           >
                             <option value="" className="bg-slate-800">Selecionar...</option>
                             <option value="Colaborativo" className="bg-slate-800">Colaborativo</option>
@@ -4864,7 +4852,7 @@ export default function Inicio() {
                           <select
                             value={tendenciaAnotacao}
                             onChange={(e) => setTendenciaAnotacao(e.target.value as TendenciaComportamental | "")}
-                            className="w-full rounded-lg border border-white/10 bg-white/10 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-purple-400"
+                            className="w-full rounded-lg border border-slate-700/50 bg-white/10 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-purple-400"
                           >
                             <option value="" className="bg-slate-800">Selecionar...</option>
                             <option value="Proativo" className="bg-slate-800">Proativo</option>
@@ -4882,7 +4870,7 @@ export default function Inicio() {
                           <select
                             value={urgenciaAnotacao}
                             onChange={(e) => setUrgenciaAnotacao(e.target.value as NivelUrgencia | "")}
-                            className="w-full rounded-lg border border-white/10 bg-white/10 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-purple-400"
+                            className="w-full rounded-lg border border-slate-700/50 bg-white/10 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-purple-400"
                           >
                             <option value="" className="bg-slate-800">Selecionar...</option>
                             <option value="Baixa" className="bg-slate-800">Baixa</option>
@@ -4898,7 +4886,7 @@ export default function Inicio() {
                           <select
                             value={tipoAcompanhamentoAnotacao}
                             onChange={(e) => setTipoAcompanhamentoAnotacao(e.target.value as TipoAcompanhamento | "")}
-                            className="w-full rounded-lg border border-white/10 bg-white/10 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-purple-400"
+                            className="w-full rounded-lg border border-slate-700/50 bg-white/10 px-2 py-1.5 text-xs text-slate-100 outline-none focus:border-purple-400"
                           >
                             <option value="" className="bg-slate-800">Selecionar...</option>
                             <option value="Rotina" className="bg-slate-800">Rotina</option>
@@ -4919,7 +4907,7 @@ export default function Inicio() {
                         value={novaAnotacao}
                         onChange={(e) => setNovaAnotacao(e.target.value)}
                         placeholder="Descreva observações, comportamentos, intervenções realizadas, próximos passos..."
-                        className="w-full rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
+                        className="w-full rounded-xl border border-slate-700/50 bg-white/10 px-3 py-2 text-slate-100 outline-none focus:border-purple-400"
                         rows={4}
                         maxLength={1000}
                       />
@@ -4929,7 +4917,7 @@ export default function Inicio() {
                     <button
                       onClick={adicionarAnotacao}
                       disabled={!clienteSelecionadoAnotacao || !novaAnotacao.trim()}
-                      className="w-full rounded-xl bg-gradient-to-r from-purple-500 via-fuchsia-500 to-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-purple-900/40 hover:brightness-110 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full rounded-xl bg-slate-600 px-4 py-2 text-sm font-semibold text-slate-100 shadow-lg shadow-purple-900/40 hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Adicionar Anotação
                     </button>
@@ -4937,8 +4925,8 @@ export default function Inicio() {
                 </div>
 
                 {/* Lista de Anotações */}
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-lg shadow-purple-900/30">
-                  <h3 className="text-base font-semibold text-white mb-4">
+                <div className="rounded-2xl border border-slate-700/50 bg-slate-800/50 p-5 shadow-sm">
+                  <h3 className="text-base font-semibold text-slate-100 mb-4">
                     Anotações Recentes
                     {anotacoes.length > 0 && (
                       <span className="ml-2 rounded-full bg-purple-500/30 px-2 py-0.5 text-xs font-normal">{anotacoes.length}</span>
@@ -4968,13 +4956,13 @@ export default function Inicio() {
                         return (
                           <div 
                             key={anot.id} 
-                            className="rounded-xl border border-white/10 bg-white/5 p-3 space-y-2 animate-fade-in hover:bg-white/10 transition"
+                            className="rounded-xl border border-slate-700/50 bg-slate-800/50 p-3 space-y-2 animate-fade-in hover:bg-white/10 transition"
                             style={{ animationDelay: `${index * 0.05}s` }}
                           >
                             <div className="flex items-start justify-between gap-2">
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-1">
-                                  <span className="text-sm font-semibold text-white">
+                                  <span className="text-sm font-semibold text-slate-100">
                                     {cliente?.nome || "Cliente removido"}
                                   </span>
                                 </div>
@@ -4983,7 +4971,7 @@ export default function Inicio() {
                                 {(anot.estadoEmocional || anot.tendencia || anot.urgencia || anot.tipoAcompanhamento) && (
                                   <div className="flex flex-wrap gap-1.5 mb-2">
                                     {anot.estadoEmocional && (
-                                      <span className={`rounded-full px-2 py-0.5 text-[10px] ${corEstado[anot.estadoEmocional] || "bg-purple-500/20 text-purple-300"}`}>
+                                      <span className={`rounded-full px-2 py-0.5 text-[10px] ${corEstado[anot.estadoEmocional] || "bg-purple-500/20 text-slate-400"}`}>
                                         {anot.estadoEmocional}
                                       </span>
                                     )}
@@ -4998,7 +4986,7 @@ export default function Inicio() {
                                       </span>
                                     )}
                                     {anot.tipoAcompanhamento && (
-                                      <span className="rounded-full bg-purple-500/20 px-2 py-0.5 text-[10px] text-purple-300">
+                                      <span className="rounded-full bg-purple-500/20 px-2 py-0.5 text-[10px] text-slate-400">
                                         {anot.tipoAcompanhamento}
                                       </span>
                                     )}
@@ -5030,8 +5018,8 @@ export default function Inicio() {
 
               {/* Anotações por Cliente */}
               {clienteSelecionadoAnotacao && (
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-lg shadow-purple-900/30 animate-fade-in">
-                  <h3 className="text-base font-semibold text-white mb-4">
+                <div className="rounded-2xl border border-slate-700/50 bg-slate-800/50 p-5 shadow-sm animate-fade-in">
+                  <h3 className="text-base font-semibold text-slate-100 mb-4">
                     Histórico de Anotações: {clientes.find((c) => c.id === clienteSelecionadoAnotacao)?.nome}
                     <span className="ml-2 rounded-full bg-purple-500/30 px-2 py-0.5 text-xs font-normal">
                       {getAnotacoesCliente(clienteSelecionadoAnotacao).length}
@@ -5067,7 +5055,7 @@ export default function Inicio() {
                             {(anot.estadoEmocional || anot.tendencia || anot.urgencia || anot.tipoAcompanhamento) && (
                               <div className="flex flex-wrap gap-1.5 mb-2">
                                 {anot.estadoEmocional && (
-                                  <span className={`rounded-full px-2 py-0.5 text-[10px] ${corEstado[anot.estadoEmocional] || "bg-purple-500/20 text-purple-300"}`}>
+                                  <span className={`rounded-full px-2 py-0.5 text-[10px] ${corEstado[anot.estadoEmocional] || "bg-purple-500/20 text-slate-400"}`}>
                                     {anot.estadoEmocional}
                                   </span>
                                 )}
@@ -5082,7 +5070,7 @@ export default function Inicio() {
                                   </span>
                                 )}
                                 {anot.tipoAcompanhamento && (
-                                  <span className="rounded-full bg-purple-500/20 px-2 py-0.5 text-[10px] text-purple-300">
+                                  <span className="rounded-full bg-purple-500/20 px-2 py-0.5 text-[10px] text-slate-400">
                                     {anot.tipoAcompanhamento}
                                   </span>
                                 )}
@@ -5112,8 +5100,8 @@ export default function Inicio() {
           )}
 
           {activeSection !== "Clientes" && activeSection !== "Relatórios" && activeSection !== "Painel" && activeSection !== "Financeiro" && activeSection !== "Anotações" && activeSection !== "Pesquisa" && (
-            <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-slate-200 shadow-lg shadow-purple-900/30 section-transition animate-fade-in hover-lift">
-              <p className="text-base font-semibold text-white">{activeSection}</p>
+            <div className="mt-8 rounded-2xl border border-slate-700/50 bg-slate-800/50 p-6 text-sm text-slate-200 shadow-sm section-transition animate-fade-in hover-lift">
+              <p className="text-base font-semibold text-slate-100">{activeSection}</p>
               <p className="mt-2 text-slate-300">
                 Esta área ainda não foi configurada. Clique à vontade — em breve adicionaremos conteúdo aqui.
               </p>
@@ -5167,18 +5155,18 @@ export default function Inicio() {
 
         return (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-            <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-white/10 shadow-2xl">
+            <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700/50 shadow-2xl">
               {/* Header com foto */}
               <div className="relative bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 p-6 pb-20">
                 <button
                   onClick={() => setShowPerfilClienteModal(null)}
-                  className="absolute top-4 right-4 rounded-full bg-white/10 p-2 text-white hover:bg-white/20 transition"
+                  className="absolute top-4 right-4 rounded-full bg-white/10 p-2 text-slate-100 hover:bg-white/20 transition"
                 >
                   <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
-                <h2 className="text-2xl font-bold text-white">{cliente.nome}</h2>
+                <h2 className="text-2xl font-bold text-slate-100">{cliente.nome}</h2>
                 {cliente.grupo && <p className="text-purple-200 mt-1">{cliente.grupo}</p>}
               </div>
 
@@ -5193,7 +5181,7 @@ export default function Inicio() {
                     />
                   ) : (
                     <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-purple-500/30 to-fuchsia-500/30">
-                      <svg className="h-12 w-12 text-purple-300/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-12 w-12 text-slate-400/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
@@ -5253,8 +5241,8 @@ export default function Inicio() {
                 <div className="grid gap-6 lg:grid-cols-3">
                   {/* Coluna 1 - Informações Pessoais */}
                   <div className="space-y-4">
-                    <h3 className="text-sm font-semibold text-purple-300 uppercase tracking-wide">Informações Pessoais</h3>
-                    <div className="space-y-3 rounded-xl bg-white/5 p-4 border border-white/10">
+                    <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">Informações Pessoais</h3>
+                    <div className="space-y-3 rounded-xl bg-slate-800/50 p-4 border border-slate-700/50">
                       {cliente.email && (
                         <div>
                           <p className="text-xs text-slate-400">Email</p>
@@ -5302,8 +5290,8 @@ export default function Inicio() {
                     {/* Informações Financeiras */}
                     {(cliente.planoFinanceiro || cliente.valorSessao) && (
                       <>
-                        <h3 className="text-sm font-semibold text-purple-300 uppercase tracking-wide mt-4">Financeiro</h3>
-                        <div className="space-y-3 rounded-xl bg-white/5 p-4 border border-white/10">
+                        <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide mt-4">Financeiro</h3>
+                        <div className="space-y-3 rounded-xl bg-slate-800/50 p-4 border border-slate-700/50">
                           {cliente.planoFinanceiro && (
                             <div>
                               <p className="text-xs text-slate-400">Plano</p>
@@ -5323,12 +5311,12 @@ export default function Inicio() {
 
                   {/* Coluna 2 - Indicadores */}
                   <div className="space-y-4">
-                    <h3 className="text-sm font-semibold text-purple-300 uppercase tracking-wide">Indicadores de Acompanhamento</h3>
-                    <div className="space-y-3 rounded-xl bg-white/5 p-4 border border-white/10">
+                    <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">Indicadores de Acompanhamento</h3>
+                    <div className="space-y-3 rounded-xl bg-slate-800/50 p-4 border border-slate-700/50">
                       <div>
                         <p className="text-xs text-slate-400 mb-1">Estado Emocional</p>
                         {getMaisFrequente(estadosCount) ? (
-                          <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold text-white ${corIndicador[getMaisFrequente(estadosCount)!] || "bg-slate-500"}`}>
+                          <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold text-slate-100 ${corIndicador[getMaisFrequente(estadosCount)!] || "bg-slate-500"}`}>
                             {getMaisFrequente(estadosCount)}
                           </span>
                         ) : (
@@ -5338,7 +5326,7 @@ export default function Inicio() {
                       <div>
                         <p className="text-xs text-slate-400 mb-1">Tendência Comportamental</p>
                         {getMaisFrequente(tendenciasCount) ? (
-                          <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold text-white ${corIndicador[getMaisFrequente(tendenciasCount)!] || "bg-slate-500"}`}>
+                          <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold text-slate-100 ${corIndicador[getMaisFrequente(tendenciasCount)!] || "bg-slate-500"}`}>
                             {getMaisFrequente(tendenciasCount)}
                           </span>
                         ) : (
@@ -5348,7 +5336,7 @@ export default function Inicio() {
                       <div>
                         <p className="text-xs text-slate-400 mb-1">Nível de Urgência</p>
                         {getMaisFrequente(urgenciasCount) ? (
-                          <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold text-white ${corIndicador[getMaisFrequente(urgenciasCount)!] || "bg-slate-500"}`}>
+                          <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold text-slate-100 ${corIndicador[getMaisFrequente(urgenciasCount)!] || "bg-slate-500"}`}>
                             {getMaisFrequente(urgenciasCount)}
                           </span>
                         ) : (
@@ -5358,7 +5346,7 @@ export default function Inicio() {
                       <div>
                         <p className="text-xs text-slate-400 mb-1">Tipo de Acompanhamento</p>
                         {getMaisFrequente(tiposCount) ? (
-                          <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold text-white ${corIndicador[getMaisFrequente(tiposCount)!] || "bg-slate-500"}`}>
+                          <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold text-slate-100 ${corIndicador[getMaisFrequente(tiposCount)!] || "bg-slate-500"}`}>
                             {getMaisFrequente(tiposCount)}
                           </span>
                         ) : (
@@ -5368,10 +5356,10 @@ export default function Inicio() {
                     </div>
 
                     {/* Estatísticas */}
-                    <h3 className="text-sm font-semibold text-purple-300 uppercase tracking-wide mt-4">Estatísticas</h3>
+                    <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide mt-4">Estatísticas</h3>
                     <div className="grid grid-cols-3 gap-2">
                       <div className="rounded-xl bg-purple-500/10 p-3 text-center border border-purple-500/20">
-                        <p className="text-2xl font-bold text-purple-300">{anotacoesCliente.length}</p>
+                        <p className="text-2xl font-bold text-slate-400">{anotacoesCliente.length}</p>
                         <p className="text-xs text-slate-400">Anotações</p>
                       </div>
                       <div className="rounded-xl bg-blue-500/10 p-3 text-center border border-blue-500/20">
@@ -5387,24 +5375,24 @@ export default function Inicio() {
 
                   {/* Coluna 3 - Anotações Recentes */}
                   <div className="space-y-4">
-                    <h3 className="text-sm font-semibold text-purple-300 uppercase tracking-wide">Últimas Anotações</h3>
+                    <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide">Últimas Anotações</h3>
                     <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2">
                       {anotacoesCliente.length === 0 ? (
-                        <p className="text-sm text-slate-500 italic rounded-xl bg-white/5 p-4 border border-white/10">
+                        <p className="text-sm text-slate-500 italic rounded-xl bg-slate-800/50 p-4 border border-slate-700/50">
                           Nenhuma anotação registrada.
                         </p>
                       ) : (
                         anotacoesCliente.slice(0, 5).map((anot) => (
-                          <div key={anot.id} className="rounded-xl bg-white/5 p-3 border border-white/10">
+                          <div key={anot.id} className="rounded-xl bg-slate-800/50 p-3 border border-slate-700/50">
                             {(anot.estadoEmocional || anot.tendencia) && (
                               <div className="flex flex-wrap gap-1 mb-2">
                                 {anot.estadoEmocional && (
-                                  <span className={`rounded-full px-2 py-0.5 text-[10px] text-white ${corIndicador[anot.estadoEmocional] || "bg-slate-500"}`}>
+                                  <span className={`rounded-full px-2 py-0.5 text-[10px] text-slate-100 ${corIndicador[anot.estadoEmocional] || "bg-slate-500"}`}>
                                     {anot.estadoEmocional}
                                   </span>
                                 )}
                                 {anot.tendencia && (
-                                  <span className={`rounded-full px-2 py-0.5 text-[10px] text-white ${corIndicador[anot.tendencia] || "bg-slate-500"}`}>
+                                  <span className={`rounded-full px-2 py-0.5 text-[10px] text-slate-100 ${corIndicador[anot.tendencia] || "bg-slate-500"}`}>
                                     {anot.tendencia}
                                   </span>
                                 )}
@@ -5422,8 +5410,8 @@ export default function Inicio() {
                     {/* Observações */}
                     {cliente.observacoes && (
                       <>
-                        <h3 className="text-sm font-semibold text-purple-300 uppercase tracking-wide mt-4">Observações</h3>
-                        <div className="rounded-xl bg-white/5 p-4 border border-white/10">
+                        <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide mt-4">Observações</h3>
+                        <div className="rounded-xl bg-slate-800/50 p-4 border border-slate-700/50">
                           <p className="text-sm text-slate-300">{cliente.observacoes}</p>
                         </div>
                       </>
@@ -5432,7 +5420,7 @@ export default function Inicio() {
                 </div>
 
                 {/* Rodapé com data de cadastro */}
-                <div className="mt-6 pt-4 border-t border-white/10 flex justify-between items-center">
+                <div className="mt-6 pt-4 border-t border-slate-700/50 flex justify-between items-center">
                   <p className="text-xs text-slate-500">
                     Cadastrado em: {cliente.dataCriacao ? new Date(cliente.dataCriacao).toLocaleDateString("pt-BR") : "Data não registrada"}
                   </p>

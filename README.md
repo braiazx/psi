@@ -96,40 +96,61 @@
 
 ## 📦 Instalação
 
-### 🚀 Método Automático (RECOMENDADO)
+### Pré-requisitos
 
-1. **Duplo clique no arquivo `INICIAR.bat`**
-   - OU clique com botão direito em `INICIAR.ps1` → "Executar com PowerShell"
+- **Node.js** (versão 18 ou superior)
+  - Baixe em: https://nodejs.org/
+  - Verifique a instalação: `node --version`
 
-2. **O script fará automaticamente:**
-   - ✅ Verificação do Node.js
-   - ✅ Instalação de todas as dependências
-   - ✅ Inicialização do backend e frontend
-   - ✅ Abertura automática do navegador
-
-3. **Pronto!** O sistema estará rodando em:
-   - Frontend: http://localhost:3000
-   - Backend: http://localhost:3001
-
-### ⚙️ Método Manual
+### 🚀 Instalação Rápida
 
 ```bash
-# 1. Instale as dependências do backend
+# 1. Clone o repositório
+git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+cd projeto001
+
+# 2. Instale as dependências do backend
 cd backend
 npm install
 
-# 2. Instale as dependências do frontend
+# 3. Instale as dependências do frontend
 cd ../frontend
 npm install
 
-# 3. Inicie o backend (terminal 1)
+# 4. Inicie o backend (em um terminal)
 cd backend
 npm run dev
 
-# 4. Inicie o frontend (terminal 2)
+# 5. Inicie o frontend (em outro terminal)
 cd frontend
 npm run dev
 ```
+
+### ⚡ Iniciar os Servidores
+
+**Terminal 1 - Backend:**
+```bash
+cd backend
+npm run dev
+```
+O backend estará em: http://localhost:3001
+
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm run dev
+```
+O frontend estará em: http://localhost:3000 (ou 3002 se 3000 estiver ocupada)
+
+### 📊 Dados de Demonstração
+
+O sistema já vem com dados fictícios pré-carregados para demonstração:
+- 12 clientes
+- 8 eventos
+- 15 transações financeiras
+- 10 anotações
+
+Os dados aparecerão automaticamente ao acessar o sistema pela primeira vez.
 
 ### 🔑 Credenciais de Acesso
 
@@ -218,15 +239,17 @@ projeto001/
 
 ## 🎨 Paleta de Cores
 
+Design moderno com paleta suave e minimalista:
+
 | Cor | Hex | Uso |
 |-----|-----|-----|
-| Roxo Principal | `#9333ea` | Ações principais, destaques |
-| Fuchsia | `#ec4899` | Acentos, gradientes |
-| Indigo | `#6366f1` | Links, elementos secundários |
-| Fundo Escuro | `#0b0416` | Background principal |
+| Slate Escuro | `#0f172a` | Background principal |
+| Slate Médio | `#1e293b` | Cards e containers |
+| Slate Claro | `#334155` | Elementos secundários |
 | Verde | `#22c55e` | Status ativo, sucesso |
-| Amarelo | `#eab308` | Em avaliação, atenção |
+| Amarelo | `#f59e0b` | Em avaliação, atenção |
 | Vermelho | `#ef4444` | Inativo, erros, crítico |
+| Azul | `#3b82f6` | Links e ações |
 
 ---
 

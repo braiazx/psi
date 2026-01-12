@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenate - Carregar Dados de Demonstração</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0b0416 0%, #1a0a2e 50%, #0f0a1f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #e9e4f6;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 48px;
+            max-width: 600px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 24px;
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 10px 40px rgba(147, 51, 234, 0.4);
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff, #c4b5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p {
+            color: #a0a0b0;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        .btn {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 8px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.5);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 32px;
+            text-align: left;
+        }
+        .feature {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .feature-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+        .feature-desc {
+            font-size: 12px;
+            color: #888;
+        }
+        .success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 24px;
+            display: none;
+        }
+        .success a {
+            color: #22c55e;
+            text-decoration: underline;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 8px;
+        }
+        .success a:hover {
+            color: #16a34a;
+        }
+        .loading {
+            display: none;
+            margin-top: 24px;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(147, 51, 234, 0.3);
+            border-top-color: #9333ea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">O</div>
+        <h1>Ordenate - Demonstração</h1>
+        <p>Clique no botão abaixo para carregar dados fictícios de demonstração e visualizar todas as funcionalidades do sistema.</p>
+        <p style="background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.3); padding: 12px; border-radius: 8px; margin: 16px 0; font-size: 14px;">
+            <strong>Importante:</strong> Certifique-se de que os servidores estão rodando antes de carregar os dados!<br>
+            <small>Backend na porta 3001 e Frontend na porta 3000 (ou 3002)</small>
+        </p>
+        
+        <div>
+            <button class="btn" onclick="carregarDados()">Carregar Dados de Demo</button>
+            <button class="btn btn-secondary" onclick="limparDados()">Limpar Dados</button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Carregando dados de demonstração...</p>
+        </div>
+
+        <div class="success" id="success">
+            <strong>Dados carregados com sucesso!</strong><br><br>
+            <small>Clique em um dos links abaixo para acessar o sistema:</small><br><br>
+            <a href="http://localhost:3002/inicio" target="_blank" id="linkSistema" style="font-size: 18px; padding: 12px 24px; background: rgba(34, 197, 94, 0.2); border-radius: 8px; display: inline-block; margin: 4px; color: #22c55e; text-decoration: none;">Abrir Sistema (Porta 3002)</a><br>
+            <a href="http://localhost:3000/inicio" target="_blank" style="font-size: 18px; padding: 12px 24px; background: rgba(34, 197, 94, 0.2); border-radius: 8px; display: inline-block; margin: 4px; color: #22c55e; text-decoration: none;">Abrir Sistema (Porta 3000)</a><br><br>
+            <small style="margin-top: 8px; display: block; color: #888;">Se nenhum link funcionar, verifique se os servidores estão rodando</small>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon" style="font-size: 20px; font-weight: bold;">12</div>
+                <div class="feature-title">12 Clientes</div>
+                <div class="feature-desc">Perfis completos de demonstração</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon" style="font-size: 20px; font-weight: bold;">8</div>
+                <div class="feature-title">8 Eventos</div>
+                <div class="feature-desc">Agenda com compromissos</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon" style="font-size: 20px; font-weight: bold;">15</div>
+                <div class="feature-title">15 Transações</div>
+                <div class="feature-desc">Receitas e despesas</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon" style="font-size: 20px; font-weight: bold;">20</div>
+                <div class="feature-title">20 Anotações</div>
+                <div class="feature-desc">Registros de acompanhamento</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados fictícios de demonstração
+        const dadosDemo = {
+            perfil: {
+                nome: "Dr. Rafael Mendes",
+                idade: "42",
+                genero: "Masculino",
+                pronomes: "ele/dele",
+                foto: null
+            },
+            clientes: [
+                {
+                    id: "c1",
+                    nome: "Ana Carolina Silva",
+                    email: "ana.silva@empresa.com.br",
+                    telefone: "(11) 3456-7890",
+                    celular: "(11) 98765-4321",
+                    status: "Ativo",
+                    grupo: "Liderança",
+                    cpf: "123.456.789-00",
+                    rg: "12.345.678-9",
+                    dataNascimento: "1985-03-15",
+                    genero: "Feminino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Mensal",
+                    valorSessao: "350",
+                    observacoes: "Gerente de RH, foco em desenvolvimento de liderança",
+                    endereco: "Av. Paulista, 1000 - São Paulo/SP",
+                    adicionais: "Preferência por sessões às terças",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: "2025-10-01T10:00:00.000Z",
+                    dataAtualizacao: "2026-01-10T14:30:00.000Z"
+                },
+                {
+                    id: "c2",
+                    nome: "Bruno Oliveira Costa",
+                    email: "bruno.costa@techcorp.com",
+                    telefone: "(11) 2345-6789",
+                    celular: "(11) 97654-3210",
+                    status: "Ativo",
+                    grupo: "Individual",
+                    cpf: "234.567.890-11",
+                    rg: "23.456.789-0",
+                    dataNascimento: "1990-07-22",
+                    genero: "Masculino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Avulso",
+                    valorSessao: "280",
+                    observacoes: "Desenvolvedor sênior, questões de burnout",
+                    endereco: "Rua Augusta, 500 - São Paulo/SP",
+                    adicionais: "",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: "2025-09-15T09:00:00.000Z",
+                    dataAtualizacao: "2026-01-08T11:00:00.000Z"
+                },
+                {
+                    id: "c3",
+                    nome: "Carla Beatriz Santos",
+                    email: "carla.santos@consultoria.com",
+                    telefone: "(11) 3456-7891",
+                    celular: "(11) 96543-2109",
+                    status: "Ativo",
+                    grupo: "Corporativo",
+                    cpf: "345.678.901-22",
+                    rg: "34.567.890-1",
+                    dataNascimento: "1982-11-30",
+                    genero: "Feminino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Trimestral",
+                    valorSessao: "400",
+                    observacoes: "CEO, coaching executivo",
+                    endereco: "Av. Brigadeiro Faria Lima, 2000 - São Paulo/SP",
+                    adicionais: "Sessões quinzenais",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: "2025-08-01T08:00:00.000Z",
+                    dataAtualizacao: "2026-01-05T16:00:00.000Z"
+                },
+                {
+                    id: "c4",
+                    nome: "Daniel Ferreira Lima",
+                    email: "daniel.lima@startup.io",
+                    telefone: "(11) 4567-8902",
+                    celular: "(11) 95432-1098",
+                    status: "Em pausa",
+                    grupo: "Individual",
+                    cpf: "456.789.012-33",
+                    rg: "45.678.901-2",
+                    dataNascimento: "1995-02-14",
+                    genero: "Masculino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Mensal",
+                    valorSessao: "250",
+                    observacoes: "Product Manager, gestão de ansiedade",
+                    endereco: "Rua Oscar Freire, 300 - São Paulo/SP",
+                    adicionais: "Retorno previsto em fevereiro",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: "2025-11-10T10:00:00.000Z",
+                    dataAtualizacao: "2025-12-20T09:00:00.000Z"
+                },
+                {
+                    id: "c5",
+                    nome: "Elena Rodrigues",
+                    email: "elena.rodrigues@banco.com.br",
+                    telefone: "(11) 5678-9013",
+                    celular: "(11) 94321-0987",
+                    status: "Ativo",
+                    grupo: "Corporativo",
+                    cpf: "567.890.123-44",
+                    rg: "56.789.012-3",
+                    dataNascimento: "1988-06-08",
+                    genero: "Feminino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Anual",
+                    valorSessao: "380",
+                    observacoes: "Diretora Financeira, equilíbrio vida-trabalho",
+                    endereco: "Av. Berrini, 1500 - São Paulo/SP",
+                    adicionais: "",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: "2025-07-20T14:00:00.000Z",
+                    dataAtualizacao: "2026-01-12T10:00:00.000Z"
+                },
+                {
+                    id: "c6",
+                    nome: "Fernando Almeida",
+                    email: "fernando.almeida@agencia.com",
+                    telefone: "(11) 6789-0124",
+                    celular: "(11) 93210-9876",
+                    status: "Ativo",
+                    grupo: "Liderança",
+                    cpf: "678.901.234-55",
+                    rg: "67.890.123-4",
+                    dataNascimento: "1979-09-25",
+                    genero: "Masculino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Mensal",
+                    valorSessao: "320",
+                    observacoes: "Diretor Criativo, gestão de equipes",
+                    endereco: "Rua dos Pinheiros, 800 - São Paulo/SP",
+                    adicionais: "",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: "2025-10-05T11:00:00.000Z",
+                    dataAtualizacao: "2026-01-09T15:00:00.000Z"
+                },
+                {
+                    id: "c7",
+                    nome: "Gabriela Martins",
+                    email: "gabriela.martins@hospital.org",
+                    telefone: "(11) 7890-1235",
+                    celular: "(11) 92109-8765",
+                    status: "Novo",
+                    grupo: "Individual",
+                    cpf: "789.012.345-66",
+                    rg: "78.901.234-5",
+                    dataNascimento: "1992-12-03",
+                    genero: "Feminino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Avulso",
+                    valorSessao: "280",
+                    observacoes: "Médica residente, gestão de estresse",
+                    endereco: "Av. Dr. Arnaldo, 450 - São Paulo/SP",
+                    adicionais: "Horários flexíveis devido plantões",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: "2026-01-08T16:00:00.000Z",
+                    dataAtualizacao: "2026-01-08T16:00:00.000Z"
+                },
+                {
+                    id: "c8",
+                    nome: "Henrique Souza",
+                    email: "henrique.souza@industria.com.br",
+                    telefone: "(11) 8901-2346",
+                    celular: "(11) 91098-7654",
+                    status: "Ativo",
+                    grupo: "Corporativo",
+                    cpf: "890.123.456-77",
+                    rg: "89.012.345-6",
+                    dataNascimento: "1975-04-18",
+                    genero: "Masculino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Trimestral",
+                    valorSessao: "450",
+                    observacoes: "Presidente, transição de carreira",
+                    endereco: "Av. das Nações Unidas, 12000 - São Paulo/SP",
+                    adicionais: "",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: "2025-06-01T09:00:00.000Z",
+                    dataAtualizacao: "2026-01-11T12:00:00.000Z"
+                },
+                {
+                    id: "c9",
+                    nome: "Isabela Pereira",
+                    email: "isabela.pereira@escola.edu.br",
+                    telefone: "(11) 9012-3457",
+                    celular: "(11) 90987-6543",
+                    status: "Inativo",
+                    grupo: "Individual",
+                    cpf: "901.234.567-88",
+                    rg: "90.123.456-7",
+                    dataNascimento: "1987-08-12",
+                    genero: "Feminino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Mensal",
+                    valorSessao: "250",
+                    observacoes: "Professora, completou acompanhamento",
+                    endereco: "Rua Vergueiro, 1200 - São Paulo/SP",
+                    adicionais: "Alta em dezembro/2025",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: "2025-03-15T10:00:00.000Z",
+                    dataAtualizacao: "2025-12-15T14:00:00.000Z"
+                },
+                {
+                    id: "c10",
+                    nome: "João Pedro Campos",
+                    email: "joao.campos@logistica.com",
+                    telefone: "(11) 0123-4568",
+                    celular: "(11) 99876-5432",
+                    status: "Ativo",
+                    grupo: "Liderança",
+                    cpf: "012.345.678-99",
+                    rg: "01.234.567-8",
+                    dataNascimento: "1983-01-28",
+                    genero: "Masculino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Mensal",
+                    valorSessao: "350",
+                    observacoes: "Gerente de Operações, desenvolvimento de liderança",
+                    endereco: "Av. Santo Amaro, 2500 - São Paulo/SP",
+                    adicionais: "",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: "2025-09-20T08:00:00.000Z",
+                    dataAtualizacao: "2026-01-07T17:00:00.000Z"
+                },
+                {
+                    id: "c11",
+                    nome: "Karen Nascimento",
+                    email: "karen.nascimento@varejo.com.br",
+                    telefone: "(11) 1234-5679",
+                    celular: "(11) 98765-4322",
+                    status: "Novo",
+                    grupo: "Individual",
+                    cpf: "123.456.789-01",
+                    rg: "12.345.678-0",
+                    dataNascimento: "1998-05-20",
+                    genero: "Feminino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Avulso",
+                    valorSessao: "220",
+                    observacoes: "Analista Jr., início de carreira",
+                    endereco: "Rua da Consolação, 600 - São Paulo/SP",
+                    adicionais: "",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: "2026-01-10T09:00:00.000Z",
+                    dataAtualizacao: "2026-01-10T09:00:00.000Z"
+                },
+                {
+                    id: "c12",
+                    nome: "Lucas Andrade",
+                    email: "lucas.andrade@tech.com",
+                    telefone: "(11) 2345-6780",
+                    celular: "(11) 97654-3211",
+                    status: "Ativo",
+                    grupo: "Corporativo",
+                    cpf: "234.567.890-12",
+                    rg: "23.456.789-1",
+                    dataNascimento: "1986-10-10",
+                    genero: "Masculino",
+                    nomeSocial: false,
+                    planoFinanceiro: "Trimestral",
+                    valorSessao: "380",
+                    observacoes: "CTO, gestão de mudanças organizacionais",
+                    endereco: "Av. Rebouças, 1800 - São Paulo/SP",
+                    adicionais: "",
+                    responsavel: "",
+                    anotacoes: "",
+                    dataCriacao: "2025-08-10T13:00:00.000Z",
+                    dataAtualizacao: "2026-01-06T11:00:00.000Z"
+                }
+            ],
+            eventos: [
+                {
+                    id: "e1",
+                    titulo: "Sessão - Ana Carolina",
+                    descricao: "Acompanhamento quinzenal de desenvolvimento de liderança",
+                    dataInicio: "2026-01-14",
+                    horaInicio: "09:00",
+                    dataFim: "2026-01-14",
+                    horaFim: "10:00",
+                    clienteId: "c1",
+                    local: "Consultório",
+                    tipo: "Consulta",
+                    valor: "350",
+                    realizado: false,
+                    receitaGerada: false
+                },
+                {
+                    id: "e2",
+                    titulo: "Sessão - Bruno Oliveira",
+                    descricao: "Continuação do trabalho sobre burnout",
+                    dataInicio: "2026-01-14",
+                    horaInicio: "10:30",
+                    dataFim: "2026-01-14",
+                    horaFim: "11:30",
+                    clienteId: "c2",
+                    local: "Online",
+                    tipo: "Consulta",
+                    valor: "280",
+                    realizado: false,
+                    receitaGerada: false
+                },
+                {
+                    id: "e3",
+                    titulo: "Coaching Executivo - Carla",
+                    descricao: "Sessão mensal de coaching executivo",
+                    dataInicio: "2026-01-15",
+                    horaInicio: "14:00",
+                    dataFim: "2026-01-15",
+                    horaFim: "15:30",
+                    clienteId: "c3",
+                    local: "Empresa do cliente",
+                    tipo: "Acompanhamento",
+                    valor: "600",
+                    realizado: false,
+                    receitaGerada: false
+                },
+                {
+                    id: "e4",
+                    titulo: "Avaliação Inicial - Karen",
+                    descricao: "Primeira sessão - levantamento inicial",
+                    dataInicio: "2026-01-16",
+                    horaInicio: "11:00",
+                    dataFim: "2026-01-16",
+                    horaFim: "12:00",
+                    clienteId: "c11",
+                    local: "Consultório",
+                    tipo: "Avaliação",
+                    valor: "220",
+                    realizado: false,
+                    receitaGerada: false
+                },
+                {
+                    id: "e5",
+                    titulo: "Reunião de Equipe - TechCorp",
+                    descricao: "Workshop de comunicação não-violenta",
+                    dataInicio: "2026-01-17",
+                    horaInicio: "09:00",
+                    dataFim: "2026-01-17",
+                    horaFim: "12:00",
+                    clienteId: "c12",
+                    local: "TechCorp - Sala de reuniões",
+                    tipo: "Reunião",
+                    valor: "1500",
+                    realizado: false,
+                    receitaGerada: false
+                },
+                {
+                    id: "e6",
+                    titulo: "Sessão - Elena Rodrigues",
+                    descricao: "Continuação do trabalho sobre equilíbrio",
+                    dataInicio: "2026-01-13",
+                    horaInicio: "16:00",
+                    dataFim: "2026-01-13",
+                    horaFim: "17:00",
+                    clienteId: "c5",
+                    local: "Online",
+                    tipo: "Consulta",
+                    valor: "380",
+                    realizado: true,
+                    receitaGerada: true
+                },
+                {
+                    id: "e7",
+                    titulo: "Sessão - Fernando Almeida",
+                    descricao: "Trabalho sobre gestão de equipes criativas",
+                    dataInicio: "2026-01-13",
+                    horaInicio: "10:00",
+                    dataFim: "2026-01-13",
+                    horaFim: "11:00",
+                    clienteId: "c6",
+                    local: "Consultório",
+                    tipo: "Consulta",
+                    valor: "320",
+                    realizado: true,
+                    receitaGerada: true
+                },
+                {
+                    id: "e8",
+                    titulo: "Retorno - Henrique Souza",
+                    descricao: "Acompanhamento do processo de transição",
+                    dataInicio: "2026-01-20",
+                    horaInicio: "08:00",
+                    dataFim: "2026-01-20",
+                    horaFim: "09:30",
+                    clienteId: "c8",
+                    local: "Empresa do cliente",
+                    tipo: "Retorno",
+                    valor: "675",
+                    realizado: false,
+                    receitaGerada: false
+                }
+            ],
+            transacoes: [
+                // Receitas do mês atual
+                { id: "t1", tipo: "receita", valor: 350, descricao: "Sessão - Ana Carolina Silva", data: "2026-01-07", formaPagamento: "PIX", clienteId: "c1", pago: true, dataCriacao: "2026-01-07T10:00:00.000Z" },
+                { id: "t2", tipo: "receita", valor: 280, descricao: "Sessão - Bruno Oliveira Costa", data: "2026-01-07", formaPagamento: "Cartão de Crédito", clienteId: "c2", pago: true, dataCriacao: "2026-01-07T11:30:00.000Z" },
+                { id: "t3", tipo: "receita", valor: 380, descricao: "Sessão - Elena Rodrigues", data: "2026-01-06", formaPagamento: "Transferência", clienteId: "c5", pago: true, dataCriacao: "2026-01-06T17:00:00.000Z" },
+                { id: "t4", tipo: "receita", valor: 320, descricao: "Sessão - Fernando Almeida", data: "2026-01-09", formaPagamento: "PIX", clienteId: "c6", pago: true, dataCriacao: "2026-01-09T15:00:00.000Z" },
+                { id: "t5", tipo: "receita", valor: 450, descricao: "Sessão - Henrique Souza", data: "2026-01-06", formaPagamento: "Boleto", clienteId: "c8", pago: true, dataCriacao: "2026-01-06T12:00:00.000Z" },
+                { id: "t6", tipo: "receita", valor: 350, descricao: "Sessão - João Pedro Campos", data: "2026-01-10", formaPagamento: "PIX", clienteId: "c10", pago: true, dataCriacao: "2026-01-10T17:00:00.000Z" },
+                { id: "t7", tipo: "receita", valor: 380, descricao: "Sessão - Lucas Andrade", data: "2026-01-11", formaPagamento: "Cartão de Débito", clienteId: "c12", pago: true, dataCriacao: "2026-01-11T11:00:00.000Z" },
+                { id: "t8", tipo: "receita", valor: 600, descricao: "Coaching Executivo - Carla Beatriz", data: "2026-01-02", formaPagamento: "Transferência", clienteId: "c3", pago: true, dataCriacao: "2026-01-02T15:30:00.000Z" },
+                // Despesas
+                { id: "t9", tipo: "despesa", valor: 2500, descricao: "Aluguel do consultório - Janeiro", data: "2026-01-05", formaPagamento: "Boleto", categoria: "Aluguel", pago: true, dataCriacao: "2026-01-05T08:00:00.000Z" },
+                { id: "t10", tipo: "despesa", valor: 150, descricao: "Material de escritório", data: "2026-01-03", formaPagamento: "Cartão de Crédito", categoria: "Materiais", pago: true, dataCriacao: "2026-01-03T14:00:00.000Z" },
+                { id: "t11", tipo: "despesa", valor: 89.90, descricao: "Assinatura software de gestão", data: "2026-01-01", formaPagamento: "Cartão de Crédito", categoria: "Serviços", pago: true, dataCriacao: "2026-01-01T00:00:00.000Z" },
+                { id: "t12", tipo: "despesa", valor: 350, descricao: "Marketing digital - Meta Ads", data: "2026-01-08", formaPagamento: "Cartão de Crédito", categoria: "Marketing", pago: true, dataCriacao: "2026-01-08T10:00:00.000Z" },
+                // Receitas do mês anterior
+                { id: "t13", tipo: "receita", valor: 3500, descricao: "Pacote trimestral - Elena Rodrigues", data: "2025-12-15", formaPagamento: "Transferência", clienteId: "c5", pago: true, dataCriacao: "2025-12-15T10:00:00.000Z" },
+                { id: "t14", tipo: "receita", valor: 2800, descricao: "Workshop Comunicação - TechCorp", data: "2025-12-20", formaPagamento: "Boleto", clienteId: "c12", pago: true, dataCriacao: "2025-12-20T18:00:00.000Z" },
+                { id: "t15", tipo: "despesa", valor: 2500, descricao: "Aluguel do consultório - Dezembro", data: "2025-12-05", formaPagamento: "Boleto", categoria: "Aluguel", pago: true, dataCriacao: "2025-12-05T08:00:00.000Z" }
+            ],
+            anotacoes: [
+                // Anotações para Ana Carolina (c1)
+                { id: "a1", clienteId: "c1", texto: "Sessão focada em técnicas de feedback construtivo. Ana demonstrou grande evolução na aplicação da escuta ativa com sua equipe. Próximos passos: trabalhar delegação de tarefas.", data: "2026-01-07T10:00:00.000Z", dataCriacao: "2026-01-07T10:00:00.000Z", estadoEmocional: "Motivado", tendencia: "Proativo", urgencia: "Baixa", tipoAcompanhamento: "Desenvolvimento" },
+                { id: "a2", clienteId: "c1", texto: "Revisão do plano de desenvolvimento individual. Ana reportou melhoria significativa no clima da equipe após implementação das técnicas discutidas.", data: "2025-12-17T09:00:00.000Z", dataCriacao: "2025-12-17T09:00:00.000Z", estadoEmocional: "Colaborativo", tendencia: "Engajado", urgencia: "Baixa", tipoAcompanhamento: "Feedback" },
+                
+                // Anotações para Bruno (c2)
+                { id: "a3", clienteId: "c2", texto: "Bruno relatou episódio de sobrecarga na última sprint. Trabalhamos técnicas de gerenciamento de tempo e estabelecimento de limites saudáveis com a liderança.", data: "2026-01-07T11:30:00.000Z", dataCriacao: "2026-01-07T11:30:00.000Z", estadoEmocional: "Ansioso", tendencia: "Em adaptação", urgencia: "Média", tipoAcompanhamento: "Orientação" },
+                { id: "a4", clienteId: "c2", texto: "Melhora significativa após férias. Implementou rotina de pausas regulares. Continua acompanhamento para consolidação dos novos hábitos.", data: "2025-12-10T10:30:00.000Z", dataCriacao: "2025-12-10T10:30:00.000Z", estadoEmocional: "Neutro", tendencia: "Estável", urgencia: "Baixa", tipoAcompanhamento: "Rotina" },
+
+                // Anotações para Carla (c3)
+                { id: "a5", clienteId: "c3", texto: "Sessão de coaching executivo focada em tomada de decisão estratégica. Carla está conduzindo processo de fusão com muita competência.", data: "2026-01-02T15:30:00.000Z", dataCriacao: "2026-01-02T15:30:00.000Z", estadoEmocional: "Colaborativo", tendencia: "Proativo", urgencia: "Média", tipoAcompanhamento: "Desenvolvimento" },
+                { id: "a6", clienteId: "c3", texto: "Discussão sobre gestão de stakeholders durante processo de mudança organizacional. Definidos KPIs para acompanhamento do clima durante transição.", data: "2025-12-05T14:00:00.000Z", dataCriacao: "2025-12-05T14:00:00.000Z", estadoEmocional: "Motivado", tendencia: "Engajado", urgencia: "Baixa", tipoAcompanhamento: "Avaliação" },
+
+                // Anotações para Elena (c5)
+                { id: "a7", clienteId: "c5", texto: "Elena conseguiu estabelecer boundaries mais claros com a equipe. Redução de horas extras de 20h para 8h semanais no último mês.", data: "2026-01-06T17:00:00.000Z", dataCriacao: "2026-01-06T17:00:00.000Z", estadoEmocional: "Motivado", tendencia: "Proativo", urgencia: "Baixa", tipoAcompanhamento: "Feedback" },
+                { id: "a8", clienteId: "c5", texto: "Trabalho sobre delegação e confiança na equipe. Elena reconhece padrão de controle excessivo. Exercício: delegar uma decisão importante esta semana.", data: "2025-12-23T16:00:00.000Z", dataCriacao: "2025-12-23T16:00:00.000Z", estadoEmocional: "Neutro", tendencia: "Em adaptação", urgencia: "Baixa", tipoAcompanhamento: "Desenvolvimento" },
+
+                // Anotações para Fernando (c6)
+                { id: "a9", clienteId: "c6", texto: "Fernando reportou conflito na equipe criativa. Trabalhamos estratégias de mediação e comunicação não-violenta para próxima reunião de equipe.", data: "2026-01-09T11:00:00.000Z", dataCriacao: "2026-01-09T11:00:00.000Z", estadoEmocional: "Ansioso", tendencia: "Reativo", urgencia: "Alta", tipoAcompanhamento: "Conflito" },
+                { id: "a10", clienteId: "c6", texto: "Sessão de follow-up pós-mediação. Conflito resolvido parcialmente. Equipe precisa de workshop de team building. Sugestão encaminhada ao RH.", data: "2025-12-16T10:00:00.000Z", dataCriacao: "2025-12-16T10:00:00.000Z", estadoEmocional: "Neutro", tendencia: "Estável", urgencia: "Média", tipoAcompanhamento: "Orientação" },
+
+                // Anotações para Gabriela (c7)
+                { id: "a11", clienteId: "c7", texto: "Primeira sessão - avaliação inicial. Gabriela apresenta sinais de exaustão relacionados à carga de plantões. Foco inicial: técnicas de recuperação e autocuidado.", data: "2026-01-08T16:00:00.000Z", dataCriacao: "2026-01-08T16:00:00.000Z", estadoEmocional: "Estressado", tendencia: "Em adaptação", urgencia: "Alta", tipoAcompanhamento: "Avaliação" },
+
+                // Anotações para Henrique (c8)
+                { id: "a12", clienteId: "c8", texto: "Henrique está no processo final de transição para o conselho. Trabalhamos aspectos emocionais de 'deixar ir' a gestão operacional.", data: "2026-01-06T09:30:00.000Z", dataCriacao: "2026-01-06T09:30:00.000Z", estadoEmocional: "Neutro", tendencia: "Estável", urgencia: "Baixa", tipoAcompanhamento: "Desenvolvimento" },
+                { id: "a13", clienteId: "c8", texto: "Definição de legado e preparação de sucessor. Henrique demonstra clareza sobre seus valores e o que deseja deixar para a próxima gestão.", data: "2025-12-09T08:00:00.000Z", dataCriacao: "2025-12-09T08:00:00.000Z", estadoEmocional: "Colaborativo", tendencia: "Proativo", urgencia: "Baixa", tipoAcompanhamento: "Orientação" },
+
+                // Anotações para João Pedro (c10)
+                { id: "a14", clienteId: "c10", texto: "Avanço significativo em habilidades de liderança situacional. João aplicou com sucesso técnica de coaching com colaborador jr.", data: "2026-01-10T17:00:00.000Z", dataCriacao: "2026-01-10T17:00:00.000Z", estadoEmocional: "Motivado", tendencia: "Engajado", urgencia: "Baixa", tipoAcompanhamento: "Feedback" },
+                { id: "a15", clienteId: "c10", texto: "Trabalho sobre gestão de performance da equipe. Definição de métricas claras e feedback estruturado para cada membro.", data: "2025-12-27T08:00:00.000Z", dataCriacao: "2025-12-27T08:00:00.000Z", estadoEmocional: "Colaborativo", tendencia: "Proativo", urgencia: "Baixa", tipoAcompanhamento: "Desenvolvimento" },
+
+                // Anotações para Karen (c11)
+                { id: "a16", clienteId: "c11", texto: "Primeira sessão agendada. Karen busca orientação para início de carreira e desenvolvimento de soft skills para progressão.", data: "2026-01-10T09:00:00.000Z", dataCriacao: "2026-01-10T09:00:00.000Z", estadoEmocional: "Motivado", tendencia: "Engajado", urgencia: "Baixa", tipoAcompanhamento: "Avaliação" },
+
+                // Anotações para Lucas (c12)
+                { id: "a17", clienteId: "c12", texto: "Lucas está liderando transformação digital na empresa. Discussão sobre gestão de resistência à mudança e comunicação de visão.", data: "2026-01-11T11:00:00.000Z", dataCriacao: "2026-01-11T11:00:00.000Z", estadoEmocional: "Colaborativo", tendencia: "Proativo", urgencia: "Média", tipoAcompanhamento: "Desenvolvimento" },
+                { id: "a18", clienteId: "c12", texto: "Workshop realizado com equipe de tech. Feedback positivo. 85% de engajamento nas atividades. Próximo: workshop com stakeholders de negócio.", data: "2025-12-20T12:00:00.000Z", dataCriacao: "2025-12-20T12:00:00.000Z", estadoEmocional: "Motivado", tendencia: "Engajado", urgencia: "Baixa", tipoAcompanhamento: "Feedback" },
+
+                // Anotações gerais/observações
+                { id: "a19", clienteId: "c4", texto: "Daniel solicitou pausa no acompanhamento por motivos pessoais. Retorno previsto para fevereiro/2026. Manter contato mensal por email.", data: "2025-12-20T10:00:00.000Z", dataCriacao: "2025-12-20T10:00:00.000Z", estadoEmocional: "Neutro", tendencia: "Estável", urgencia: "Baixa", tipoAcompanhamento: "Rotina" },
+                { id: "a20", clienteId: "c9", texto: "Alta terapêutica. Isabela completou com sucesso o programa de desenvolvimento. Objetivos alcançados. Porta aberta para retorno se necessário.", data: "2025-12-15T14:00:00.000Z", dataCriacao: "2025-12-15T14:00:00.000Z", estadoEmocional: "Motivado", tendencia: "Proativo", urgencia: "Baixa", tipoAcompanhamento: "Feedback" }
+            ]
+        };
+
+        function carregarDados() {
+            const loadingEl = document.getElementById('loading');
+            const successEl = document.getElementById('success');
+            
+            if (!loadingEl || !successEl) {
+                alert('Erro: Elementos da página não encontrados');
+                return;
+            }
+            
+            loadingEl.style.display = 'block';
+            successEl.style.display = 'none';
+            
+            try {
+                // Verificar se localStorage está disponível
+                if (typeof(Storage) === "undefined") {
+                    throw new Error('LocalStorage não está disponível neste navegador');
+                }
+                
+                // Validar dados antes de salvar
+                if (!dadosDemo || !dadosDemo.clientes || dadosDemo.clientes.length === 0) {
+                    throw new Error('Dados de demonstração inválidos');
+                }
+                
+                console.log('Iniciando carregamento de dados...');
+                console.log('Total de clientes:', dadosDemo.clientes.length);
+                console.log('Total de eventos:', dadosDemo.eventos.length);
+                console.log('Total de transações:', dadosDemo.transacoes.length);
+                console.log('Total de anotações:', dadosDemo.anotacoes.length);
+                
+                // Salvar no localStorage
+                localStorage.setItem('perfil_ordenate', JSON.stringify(dadosDemo.perfil));
+                console.log('Perfil salvo');
+                
+                localStorage.setItem('clientes_ordenate', JSON.stringify(dadosDemo.clientes));
+                console.log('Clientes salvos');
+                
+                localStorage.setItem('eventos_ordenate', JSON.stringify(dadosDemo.eventos));
+                console.log('Eventos salvos');
+                
+                localStorage.setItem('transacoes_ordenate', JSON.stringify(dadosDemo.transacoes));
+                console.log('Transações salvas');
+                
+                localStorage.setItem('anotacoes_ordenate', JSON.stringify(dadosDemo.anotacoes));
+                console.log('Anotações salvas');
+                
+                // Verificar se os dados foram salvos corretamente
+                const clientesSalvos = localStorage.getItem('clientes_ordenate');
+                if (!clientesSalvos) {
+                    throw new Error('Falha ao salvar clientes no localStorage');
+                }
+                
+                const clientesParsed = JSON.parse(clientesSalvos);
+                if (clientesParsed.length !== dadosDemo.clientes.length) {
+                    throw new Error('Quantidade de clientes salva não corresponde ao esperado');
+                }
+                
+                console.log('Todos os dados foram salvos com sucesso!');
+                
+                setTimeout(() => {
+                    loadingEl.style.display = 'none';
+                    successEl.style.display = 'block';
+                }, 1000);
+                
+            } catch (error) {
+                loadingEl.style.display = 'none';
+                const errorMsg = 'Erro ao carregar dados: ' + error.message;
+                console.error('Erro completo:', error);
+                alert(errorMsg + '\n\nAbra o console do navegador (F12) para mais detalhes.');
+            }
+        }
+
+        function limparDados() {
+            if (confirm('Tem certeza que deseja limpar todos os dados? Esta ação não pode ser desfeita.')) {
+                localStorage.removeItem('perfil_ordenate');
+                localStorage.removeItem('clientes_ordenate');
+                localStorage.removeItem('eventos_ordenate');
+                localStorage.removeItem('transacoes_ordenate');
+                localStorage.removeItem('anotacoes_ordenate');
+                localStorage.removeItem('backups_ordenate');
+                alert('Dados limpos com sucesso!');
+            }
+        }
+
+        function verificarPorta() {
+            // Mostra ambos os links e deixa o usuário escolher
+            // A detecção automática de porta não funciona bem por CORS
+        }
+    </script>
+</body>
+</html>
+

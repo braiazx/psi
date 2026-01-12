@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b0416;
-  --foreground: #e9e4f6;
+  --background: #0f172a;
+  --foreground: #f1f5f9;
 }
 
 @theme inline {
@@ -14,10 +14,7 @@
 
 @layer base {
   body {
-    background: radial-gradient(circle at 20% 20%, rgba(147, 51, 234, 0.15), transparent 25%),
-      radial-gradient(circle at 80% 0%, rgba(99, 102, 241, 0.18), transparent 22%),
-      radial-gradient(circle at 60% 70%, rgba(168, 85, 247, 0.12), transparent 30%),
-      var(--background);
+    background: var(--background);
     color: var(--foreground);
     font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     min-height: 100vh;
@@ -174,7 +171,7 @@
   }
 
   .hover-lift:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(147, 51, 234, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 }
