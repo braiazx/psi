@@ -267,11 +267,36 @@ export default function Inicio() {
     });
   }, [clientes, filtrosAtivos]);
 
+  // Eventos nos próximos 7 dias (compatível com dataInicio ou data antiga)
+  const eventosProximos7Dias = useMemo(() => {
+    const hoje = new Date();
+    const inicioHoje = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+    const limite = new Date(inicioHoje);
+    limite.setDate(inicioHoje.getDate() + 7);
+
+    return eventos.filter((evento) => {
+      const dataBruta = evento?.dataInicio || evento?.data || evento?.dataFim;
+      if (!dataBruta) return false;
+
+      const dataEvento = new Date(dataBruta);
+      if (isNaN(dataEvento.getTime())) return false;
+
+      // Normaliza para comparar apenas a data (ignora horário e timezone)
+      const dataSomenteDia = new Date(
+        dataEvento.getFullYear(),
+        dataEvento.getMonth(),
+        dataEvento.getDate()
+      );
+
+      return dataSomenteDia >= inicioHoje && dataSomenteDia <= limite;
+    }).length;
+  }, [eventos]);
+
   // Carregar clientes da pasta local ao iniciar
   useEffect(() => {
     const carregarClientes = async () => {
       const dados = await loadClientes();
-      if (dados && dados.length > 0) {
+      if (dados) {
         setClientes(dados);
       }
     };
@@ -448,19 +473,8 @@ export default function Inicio() {
         const eventosParsed = JSON.parse(eventosSalvos);
         setEventos(eventosParsed);
       } else {
-        // Carregar dados fictícios se não houver dados salvos
-        const dadosFicticios = [
-          { id: "e1", titulo: "Sessão - Ana Carolina", descricao: "Acompanhamento quinzenal", data: "2026-01-14", hora: "09:00", clienteId: "c1", tipo: "Consulta", valor: 350, realizado: false, receitaGerada: false },
-          { id: "e2", titulo: "Sessão - Bruno Oliveira", descricao: "Continuação sobre burnout", data: "2026-01-14", hora: "10:30", clienteId: "c2", tipo: "Consulta", valor: 280, realizado: false, receitaGerada: false },
-          { id: "e3", titulo: "Coaching Executivo - Carla", descricao: "Sessão mensal", data: "2026-01-15", hora: "14:00", clienteId: "c3", tipo: "Acompanhamento", valor: 600, realizado: false, receitaGerada: false },
-          { id: "e4", titulo: "Avaliação Inicial - Karen", descricao: "Primeira sessão", data: "2026-01-16", hora: "11:00", clienteId: "c11", tipo: "Avaliação", valor: 220, realizado: false, receitaGerada: false },
-          { id: "e5", titulo: "Reunião de Equipe - TechCorp", descricao: "Workshop comunicação", data: "2026-01-17", hora: "09:00", clienteId: "c12", tipo: "Reunião", valor: 1500, realizado: false, receitaGerada: false },
-          { id: "e6", titulo: "Sessão - Elena Rodrigues", descricao: "Trabalho sobre equilíbrio", data: "2026-01-13", hora: "16:00", clienteId: "c5", tipo: "Consulta", valor: 380, realizado: true, receitaGerada: true },
-          { id: "e7", titulo: "Sessão - Fernando Almeida", descricao: "Gestão de equipes", data: "2026-01-13", hora: "10:00", clienteId: "c6", tipo: "Consulta", valor: 320, realizado: true, receitaGerada: true },
-          { id: "e8", titulo: "Retorno - Henrique Souza", descricao: "Acompanhamento transição", data: "2026-01-20", hora: "08:00", clienteId: "c8", tipo: "Retorno", valor: 675, realizado: false, receitaGerada: false }
-        ];
-        localStorage.setItem("eventos_ordenate", JSON.stringify(dadosFicticios));
-        setEventos(dadosFicticios);
+        // Sistema inicia vazio - sem dados pré-carregados
+        setEventos([]);
       }
     } catch (error) {
       console.error("Erro ao carregar eventos:", error);
@@ -769,26 +783,8 @@ export default function Inicio() {
         console.error("Erro ao carregar transações:", error);
       }
     } else {
-      // Carregar dados fictícios se não houver dados salvos
-      const dadosFicticios = [
-        { id: "t1", tipo: "receita", valor: 350, descricao: "Sessão - Ana Carolina Silva", data: "2026-01-07", formaPagamento: "PIX", clienteId: "c1", pago: true, dataCriacao: new Date('2026-01-07').toISOString() },
-        { id: "t2", tipo: "receita", valor: 280, descricao: "Sessão - Bruno Oliveira Costa", data: "2026-01-07", formaPagamento: "Cartão de Crédito", clienteId: "c2", pago: true, dataCriacao: new Date('2026-01-07').toISOString() },
-        { id: "t3", tipo: "receita", valor: 380, descricao: "Sessão - Elena Rodrigues", data: "2026-01-06", formaPagamento: "Transferência", clienteId: "c5", pago: true, dataCriacao: new Date('2026-01-06').toISOString() },
-        { id: "t4", tipo: "receita", valor: 320, descricao: "Sessão - Fernando Almeida", data: "2026-01-09", formaPagamento: "PIX", clienteId: "c6", pago: true, dataCriacao: new Date('2026-01-09').toISOString() },
-        { id: "t5", tipo: "receita", valor: 450, descricao: "Sessão - Henrique Souza", data: "2026-01-06", formaPagamento: "Boleto", clienteId: "c8", pago: true, dataCriacao: new Date('2026-01-06').toISOString() },
-        { id: "t6", tipo: "receita", valor: 350, descricao: "Sessão - João Pedro Campos", data: "2026-01-10", formaPagamento: "PIX", clienteId: "c10", pago: true, dataCriacao: new Date('2026-01-10').toISOString() },
-        { id: "t7", tipo: "receita", valor: 380, descricao: "Sessão - Lucas Andrade", data: "2026-01-11", formaPagamento: "Cartão de Débito", clienteId: "c12", pago: true, dataCriacao: new Date('2026-01-11').toISOString() },
-        { id: "t8", tipo: "receita", valor: 600, descricao: "Coaching Executivo - Carla Beatriz", data: "2026-01-02", formaPagamento: "Transferência", clienteId: "c3", pago: true, dataCriacao: new Date('2026-01-02').toISOString() },
-        { id: "t9", tipo: "despesa", valor: 2500, descricao: "Aluguel do consultório - Janeiro", data: "2026-01-05", formaPagamento: "Boleto", categoria: "Aluguel", pago: true, dataCriacao: new Date('2026-01-05').toISOString() },
-        { id: "t10", tipo: "despesa", valor: 150, descricao: "Material de escritório", data: "2026-01-03", formaPagamento: "Cartão de Crédito", categoria: "Materiais", pago: true, dataCriacao: new Date('2026-01-03').toISOString() },
-        { id: "t11", tipo: "despesa", valor: 89.90, descricao: "Assinatura software de gestão", data: "2026-01-01", formaPagamento: "Cartão de Crédito", categoria: "Serviços", pago: true, dataCriacao: new Date('2026-01-01').toISOString() },
-        { id: "t12", tipo: "despesa", valor: 350, descricao: "Marketing digital - Meta Ads", data: "2026-01-08", formaPagamento: "Cartão de Crédito", categoria: "Marketing", pago: true, dataCriacao: new Date('2026-01-08').toISOString() },
-        { id: "t13", tipo: "receita", valor: 3500, descricao: "Pacote trimestral - Elena Rodrigues", data: "2025-12-15", formaPagamento: "Transferência", clienteId: "c5", pago: true, dataCriacao: new Date('2025-12-15').toISOString() },
-        { id: "t14", tipo: "receita", valor: 2800, descricao: "Workshop Comunicação - TechCorp", data: "2025-12-20", formaPagamento: "Boleto", clienteId: "c12", pago: true, dataCriacao: new Date('2025-12-20').toISOString() },
-        { id: "t15", tipo: "despesa", valor: 2500, descricao: "Aluguel do consultório - Dezembro", data: "2025-12-05", formaPagamento: "Boleto", categoria: "Aluguel", pago: true, dataCriacao: new Date('2025-12-05').toISOString() }
-      ];
-      localStorage.setItem("transacoes_ordenate", JSON.stringify(dadosFicticios));
-      setTransacoes(dadosFicticios);
+      // Sistema inicia vazio - sem dados pré-carregados
+      setTransacoes([]);
     }
   }, []);
 
@@ -810,21 +806,8 @@ export default function Inicio() {
         console.error("Erro ao carregar anotações:", error);
       }
     } else {
-      // Carregar dados fictícios se não houver dados salvos
-      const dadosFicticios = [
-        { id: "a1", clienteId: "c1", texto: "Sessão focada em técnicas de feedback construtivo. Ana demonstrou grande evolução na aplicação da escuta ativa com sua equipe.", data: "2026-01-07", dataCriacao: new Date('2026-01-07').toISOString(), estadoEmocional: "Motivado", tendencia: "Proativo", urgencia: "Baixa", tipoAcompanhamento: "Desenvolvimento" },
-        { id: "a2", clienteId: "c1", texto: "Revisão do plano de desenvolvimento individual. Ana reportou melhoria significativa no clima da equipe.", data: "2025-12-17", dataCriacao: new Date('2025-12-17').toISOString(), estadoEmocional: "Colaborativo", tendencia: "Engajado", urgencia: "Baixa", tipoAcompanhamento: "Feedback" },
-        { id: "a3", clienteId: "c2", texto: "Bruno relatou episódio de sobrecarga na última sprint. Trabalhamos técnicas de gerenciamento de tempo.", data: "2026-01-07", dataCriacao: new Date('2026-01-07').toISOString(), estadoEmocional: "Ansioso", tendencia: "Em adaptação", urgencia: "Média", tipoAcompanhamento: "Orientação" },
-        { id: "a4", clienteId: "c3", texto: "Sessão de coaching executivo focada em tomada de decisão estratégica. Carla está conduzindo processo de fusão com competência.", data: "2026-01-02", dataCriacao: new Date('2026-01-02').toISOString(), estadoEmocional: "Colaborativo", tendencia: "Proativo", urgencia: "Média", tipoAcompanhamento: "Desenvolvimento" },
-        { id: "a5", clienteId: "c5", texto: "Elena conseguiu estabelecer boundaries mais claros com a equipe. Redução de horas extras de 20h para 8h semanais.", data: "2026-01-06", dataCriacao: new Date('2026-01-06').toISOString(), estadoEmocional: "Motivado", tendencia: "Proativo", urgencia: "Baixa", tipoAcompanhamento: "Feedback" },
-        { id: "a6", clienteId: "c6", texto: "Fernando reportou conflito na equipe criativa. Trabalhamos estratégias de mediação e comunicação não-violenta.", data: "2026-01-09", dataCriacao: new Date('2026-01-09').toISOString(), estadoEmocional: "Ansioso", tendencia: "Reativo", urgencia: "Alta", tipoAcompanhamento: "Conflito" },
-        { id: "a7", clienteId: "c7", texto: "Primeira sessão - avaliação inicial. Gabriela apresenta sinais de exaustão relacionados à carga de plantões.", data: "2026-01-08", dataCriacao: new Date('2026-01-08').toISOString(), estadoEmocional: "Estressado", tendencia: "Em adaptação", urgencia: "Alta", tipoAcompanhamento: "Avaliação" },
-        { id: "a8", clienteId: "c8", texto: "Henrique está no processo final de transição para o conselho. Trabalhamos aspectos emocionais de 'deixar ir' a gestão operacional.", data: "2026-01-06", dataCriacao: new Date('2026-01-06').toISOString(), estadoEmocional: "Neutro", tendencia: "Estável", urgencia: "Baixa", tipoAcompanhamento: "Desenvolvimento" },
-        { id: "a9", clienteId: "c10", texto: "Avanço significativo em habilidades de liderança situacional. João aplicou com sucesso técnica de coaching com colaborador jr.", data: "2026-01-10", dataCriacao: new Date('2026-01-10').toISOString(), estadoEmocional: "Motivado", tendencia: "Engajado", urgencia: "Baixa", tipoAcompanhamento: "Feedback" },
-        { id: "a10", clienteId: "c12", texto: "Lucas está liderando transformação digital na empresa. Discussão sobre gestão de resistência à mudança e comunicação de visão.", data: "2026-01-11", dataCriacao: new Date('2026-01-11').toISOString(), estadoEmocional: "Colaborativo", tendencia: "Proativo", urgencia: "Média", tipoAcompanhamento: "Desenvolvimento" }
-      ];
-      localStorage.setItem("anotacoes_ordenate", JSON.stringify(dadosFicticios));
-      setAnotacoes(dadosFicticios);
+      // Sistema inicia vazio - sem dados pré-carregados
+      setAnotacoes([]);
     }
   }, []);
 
@@ -2128,11 +2111,11 @@ export default function Inicio() {
             {[
               { label: "Painel", icon: "🏠", image: "/icon-painel.png" },
               { label: "Clientes", icon: "👥", image: "/icon-clientes.png" },
-              { label: "Pesquisa", icon: "🔍", image: "/icon-pesquisar.png" },
-              { label: "Agenda", icon: "📅", image: "/icon-agenda.png" },
-              { label: "Financeiro", icon: "💳", image: "/icon-financeiro.png" },
-              { label: "Relatórios", icon: "📊", image: "/icon-relatorio.png" },
-              { label: "Anotações", icon: "📝", image: "/icon-anotação.png" },
+              { label: "Pesquisa", icon: "", image: "/icon-pesquisar.png" },
+              { label: "Agenda", icon: "", image: "/icon-agenda.png" },
+              { label: "Financeiro", icon: "", image: "/icon-financeiro.png" },
+              { label: "Relatórios", icon: "", image: "/icon-relatorio.png" },
+              { label: "Anotações", icon: "", image: "/icon-anotação.png" },
             ].map((item) => {
               const isActive = activeSection === item.label;
               return (
@@ -2141,7 +2124,7 @@ export default function Inicio() {
                   onClick={() => setActiveSection(item.label)}
                   className={`flex items-center ${sidebarExpanded ? "px-3" : "justify-center"} h-12 rounded-xl text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? "bg-slate-700 text-slate-100 shadow-lg shadow-purple-900/50"
+                      ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-lg shadow-purple-900/50"
                       : "text-slate-300 hover:bg-white/10 hover:text-slate-100"
                   }`}
                   title={!sidebarExpanded ? item.label : undefined}
@@ -3034,64 +3017,50 @@ export default function Inicio() {
               )}
 
               {/* Cards de Estatísticas */}
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <div className="rounded-2xl bg-slate-700/30 p-5 shadow-sm animate-scale-in hover-lift">
-                  <p className="text-sm text-purple-200 mb-1">Total de Clientes</p>
-                  <p className="text-3xl font-bold text-slate-100">{clientesFiltradosParaGraficos.length}</p>
-                  <p className="text-xs text-slate-400 mt-1">Cadastrados no sistema</p>
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="rounded-2xl bg-slate-700/30 p-6 shadow-sm animate-scale-in hover-lift">
+                  <p className="text-sm text-purple-200 mb-2">Total de Clientes</p>
+                  <p className="text-4xl font-bold text-slate-100">{clientesFiltradosParaGraficos.length}</p>
+                  <p className="text-xs text-slate-400 mt-2">Cadastrados no sistema</p>
                 </div>
-                <div className="rounded-2xl bg-slate-700/30 p-5 shadow-lg shadow-fuchsia-900/30 animate-scale-in hover-lift" style={{ animationDelay: "0.1s" }}>
-                  <p className="text-sm text-fuchsia-200 mb-1">Clientes Ativos</p>
-                  <p className="text-3xl font-bold text-slate-100">
-                    {clientesFiltradosParaGraficos.filter((c) => c.status === "Ativo").length}
-                  </p>
-                  <p className="text-xs text-fuchsia-300 mt-1">
-                    {clientesFiltradosParaGraficos.length > 0
-                      ? Math.round(
-                          (clientesFiltradosParaGraficos.filter((c) => c.status === "Ativo").length / clientesFiltradosParaGraficos.length) * 100
-                        )
-                      : 0}
-                    % do total
-                  </p>
+                <div className="rounded-2xl bg-slate-700/30 p-6 shadow-lg shadow-fuchsia-900/30 animate-scale-in hover-lift" style={{ animationDelay: "0.1s" }}>
+                  <p className="text-sm text-fuchsia-200 mb-2">Total de Eventos</p>
+                  <p className="text-4xl font-bold text-slate-100">{eventos.length}</p>
+                  <p className="text-xs text-fuchsia-300 mt-2">Agendados no sistema</p>
                 </div>
-                <div className="rounded-2xl bg-slate-700/30 p-5 shadow-lg shadow-indigo-900/30 animate-scale-in hover-lift" style={{ animationDelay: "0.2s" }}>
-                  <p className="text-sm text-indigo-200 mb-1">Em Avaliação</p>
-                  <p className="text-3xl font-bold text-slate-100">
-                    {clientesFiltradosParaGraficos.filter((c) => c.status === "Em avaliação").length}
-                  </p>
-                  <p className="text-xs text-indigo-300 mt-1">Requerem atenção</p>
+                <div className="rounded-2xl bg-slate-700/30 p-6 shadow-lg shadow-indigo-900/30 animate-scale-in hover-lift" style={{ animationDelay: "0.2s" }}>
+                  <p className="text-sm text-indigo-200 mb-2">Próximos 7 dias</p>
+                  <p className="text-4xl font-bold text-slate-100">{eventosProximos7Dias}</p>
+                  <p className="text-xs text-indigo-300 mt-2">Eventos agendados</p>
                 </div>
-                <div className="rounded-2xl bg-slate-700/30 p-5 shadow-lg shadow-emerald-900/30 animate-scale-in hover-lift" style={{ animationDelay: "0.3s" }}>
-                  <p className="text-sm text-emerald-200 mb-1">Total de Anotações</p>
-                  <p className="text-3xl font-bold text-slate-100">
+                <div className="rounded-2xl bg-slate-700/30 p-6 shadow-lg shadow-emerald-900/30 animate-scale-in hover-lift" style={{ animationDelay: "0.3s" }}>
+                  <p className="text-sm text-emerald-200 mb-2">Total de Anotações</p>
+                  <p className="text-4xl font-bold text-slate-100">
                     {anotacoes.length}
                   </p>
-                  <p className="text-xs text-emerald-300 mt-1">Registros de acompanhamento</p>
+                  <p className="text-xs text-emerald-300 mt-2">Registros de acompanhamento</p>
                 </div>
               </div>
 
               {/* Gráficos */}
               <div className="grid gap-6 lg:grid-cols-2">
-                {/* Gráfico de Barras - Status */}
+                {/* Gráfico de Barras - Eventos no Total */}
                 <div className="rounded-xl bg-slate-800/50 p-6 border border-slate-700/50 animate-fade-in">
-                  <h3 className="text-lg font-semibold text-slate-100 mb-1">Distribuição por Status</h3>
-                  <p className="text-xs text-slate-400 mb-4">Status atual dos seus clientes</p>
+                  <h3 className="text-lg font-semibold text-slate-100 mb-1">Eventos no Total</h3>
+                  <p className="text-xs text-slate-400 mb-4">Distribuição de eventos por tipo</p>
                   <ResponsiveContainer width="100%" height={280}>
                     <BarChart
-                      data={[
-                        {
-                          name: "Ativo",
-                          valor: clientesFiltradosParaGraficos.filter((c) => c.status === "Ativo").length,
-                        },
-                        {
-                          name: "Inativo",
-                          valor: clientesFiltradosParaGraficos.filter((c) => c.status === "Inativo").length,
-                        },
-                        {
-                          name: "Em avaliação",
-                          valor: clientesFiltradosParaGraficos.filter((c) => c.status === "Em avaliação").length,
-                        },
-                      ]}
+                      data={(() => {
+                        const tiposEventos = eventos.reduce((acc: Record<string, number>, evento) => {
+                          const tipo = evento.tipo || "Outros";
+                          acc[tipo] = (acc[tipo] || 0) + 1;
+                          return acc;
+                        }, {});
+                        return Object.entries(tiposEventos).map(([name, quantidade]) => ({
+                          name,
+                          quantidade,
+                        })).sort((a, b) => b.quantidade - a.quantidade);
+                      })()}
                       margin={{ top: 20, right: 20, left: 0, bottom: 5 }}
                     >
                       <defs></defs>
@@ -3099,8 +3068,11 @@ export default function Inicio() {
                       <XAxis 
                         dataKey="name" 
                         stroke="#94a3b8" 
-                        tick={{ fill: '#cbd5e1', fontSize: 12 }}
+                        tick={{ fill: '#cbd5e1', fontSize: 11 }}
                         axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
+                        angle={-45}
+                        textAnchor="end"
+                        height={60}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
@@ -3116,54 +3088,36 @@ export default function Inicio() {
                         }}
                         itemStyle={{ color: '#f1f5f9' }}
                         cursor={{ fill: 'rgba(148, 163, 184, 0.1)' }}
+                        formatter={(value: any) => [`${value} eventos`, 'Quantidade']}
                       />
                       <Bar
-                        dataKey="valor"
+                        dataKey="quantidade"
                         radius={[8, 8, 0, 0]}
-                        onClick={(data: any, index: number) => {
-                          const statuses = ["Ativo", "Inativo", "Em avaliação"];
-                          const statusSelecionado = statuses[index];
-                          if (!statusSelecionado) return;
-                          if (filtrosAtivos.status === statusSelecionado) {
-                            aplicarFiltro("status", undefined);
-                          } else {
-                            aplicarFiltro("status", statusSelecionado);
-                          }
-                        }}
-                        style={{ cursor: "pointer" }}
                       >
-                        {[
-                          {
-                            name: "Ativo",
-                            valor: clientesFiltradosParaGraficos.filter((c) => c.status === "Ativo").length,
-                          },
-                          {
-                            name: "Inativo",
-                            valor: clientesFiltradosParaGraficos.filter((c) => c.status === "Inativo").length,
-                          },
-                          {
-                            name: "Em avaliação",
-                            valor: clientesFiltradosParaGraficos.filter((c) => c.status === "Em avaliação").length,
-                          },
-                        ].map((entry, index) => {
-                          const statuses = ["Ativo", "Inativo", "Em avaliação"];
-                          const statusSelecionado = statuses[index];
-                          const isFiltered = filtrosAtivos.status && filtrosAtivos.status !== statusSelecionado;
-                          const colors = ["#22c55e", "#ef4444", "#f59e0b"];
-                          const opacity = isFiltered ? 0.3 : 1;
-                            return (
+                        {(() => {
+                          const tiposEventos = eventos.reduce((acc: Record<string, number>, evento) => {
+                            const tipo = evento.tipo || "Outros";
+                            acc[tipo] = (acc[tipo] || 0) + 1;
+                            return acc;
+                          }, {});
+                          const data = Object.entries(tiposEventos).map(([name, quantidade]) => ({
+                            name,
+                            quantidade,
+                          })).sort((a, b) => b.quantidade - a.quantidade);
+                          
+                          const colors = ["#9333ea", "#ec4899", "#6366f1", "#22c55e", "#f59e0b", "#ef4444"];
+                          return data.map((entry, index) => (
                             <Cell 
-                              key={`cell-${index}`} 
-                              fill={colors[index]}
-                              opacity={opacity}
+                              key={`cell-${entry.name}`} 
+                              fill={colors[index % colors.length]}
                             />
-                          );
-                        })}
+                          ));
+                        })()}
                       </Bar>
-                      </BarChart>
-                    </ResponsiveContainer>
-                  <p className="text-xs text-purple-400/70 mt-2 text-center italic">Clique nas barras para filtrar</p>
-                  </div>
+                    </BarChart>
+                  </ResponsiveContainer>
+                  <p className="text-xs text-slate-400 mt-2 text-center">Total: {eventos.length} eventos</p>
+                </div>
 
                 {/* Gráfico de Gênero */}
                 {clientesFiltradosParaGraficos.filter((c) => c.genero).length > 0 && (
@@ -3172,28 +3126,6 @@ export default function Inicio() {
                     <p className="text-xs text-slate-400 mb-4">Perfil demográfico dos seus clientes</p>
                     <ResponsiveContainer width="100%" height={280}>
                       <PieChart>
-                        <defs>
-                          <linearGradient id="gradientGenero1" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#a855f7" />
-                            <stop offset="100%" stopColor="#7c3aed" />
-                          </linearGradient>
-                          <linearGradient id="gradientGenero2" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#f472b6" />
-                            <stop offset="100%" stopColor="#db2777" />
-                          </linearGradient>
-                          <linearGradient id="gradientGenero3" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#818cf8" />
-                            <stop offset="100%" stopColor="#4f46e5" />
-                          </linearGradient>
-                          <linearGradient id="gradientGenero4" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#a78bfa" />
-                            <stop offset="100%" stopColor="#7c3aed" />
-                          </linearGradient>
-                          <linearGradient id="gradientGenero5" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#c084fc" />
-                            <stop offset="100%" stopColor="#9333ea" />
-                          </linearGradient>
-                        </defs>
                         <Pie
                           data={(() => {
                             const generos = clientesFiltradosParaGraficos
@@ -3395,10 +3327,10 @@ export default function Inicio() {
               </div>
 
               {/* Tabela Resumo */}
-              <div className="rounded-2xl bg-slate-800/50 p-6 shadow-sm animate-fade-in hover-lift">
+              <div className="rounded-2xl bg-slate-800/50 p-4 shadow-sm animate-fade-in hover-lift max-h-80 overflow-y-auto">
                 <h3 className="text-lg font-semibold text-slate-100 mb-4">Resumo Detalhado</h3>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-slate-300">
+                  <table className="w-full text-xs text-slate-300">
                     <thead>
                       <tr className="border-b border-slate-700/50">
                         <th className="text-left py-3 px-4 font-semibold text-slate-100">Categoria</th>
@@ -3407,40 +3339,52 @@ export default function Inicio() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="border-b border-white/5">
-                        <td className="py-3 px-4">Total de Clientes</td>
-                        <td className="text-right py-3 px-4 font-semibold text-slate-100">{clientesFiltradosParaGraficos.length}</td>
-                        <td className="text-right py-3 px-4">100%</td>
-                      </tr>
-                      <tr className="border-b border-white/5">
-                        <td className="py-3 px-4">Status: Ativo</td>
-                        <td className="text-right py-3 px-4 font-semibold text-emerald-300">
-                          {clientesFiltradosParaGraficos.filter((c) => c.status === "Ativo").length}
-                        </td>
-                        <td className="text-right py-3 px-4">
-                          {clientesFiltradosParaGraficos.length > 0
-                            ? Math.round(
-                                (clientesFiltradosParaGraficos.filter((c) => c.status === "Ativo").length / clientesFiltradosParaGraficos.length) * 100
-                              )
-                            : 0}
-                          %
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="py-3 px-4">Status: Em avaliação</td>
-                        <td className="text-right py-3 px-4 font-semibold text-amber-300">
-                          {clientesFiltradosParaGraficos.filter((c) => c.status === "Em avaliação").length}
-                        </td>
-                        <td className="text-right py-3 px-4">
-                          {clientesFiltradosParaGraficos.length > 0
-                            ? Math.round(
-                                (clientesFiltradosParaGraficos.filter((c) => c.status === "Em avaliação").length / clientesFiltradosParaGraficos.length) *
-                                  100
-                              )
-                            : 0}
-                          %
-                        </td>
-                      </tr>
+                      {(() => {
+                        const totalClientesTabela = clientesFiltradosParaGraficos.length;
+                        const masculino = clientesFiltradosParaGraficos.filter((c) => {
+                          const genero = (c.genero || "").toLowerCase();
+                          return genero === "homem" || genero === "masculino";
+                        }).length;
+                        const feminino = clientesFiltradosParaGraficos.filter((c) => {
+                          const genero = (c.genero || "").toLowerCase();
+                          return genero === "mulher" || genero === "feminino";
+                        }).length;
+                        const totalEventosTabela = eventos.length;
+                        const proximos7 = eventosProximos7Dias;
+                        const pct = (num: number, den: number) => (den > 0 ? Math.round((num / den) * 100) : 0);
+
+                        return (
+                          <>
+                            <tr className="border-b border-white/5">
+                              <td className="py-3 px-4">Total de Clientes</td>
+                              <td className="text-right py-3 px-4 font-semibold text-slate-100">{totalClientesTabela}</td>
+                              <td className="text-right py-3 px-4">100%</td>
+                            </tr>
+                            <tr className="border-b border-white/5">
+                              <td className="py-3 px-4">Gênero: Masculino</td>
+                              <td className="text-right py-3 px-4 font-semibold text-blue-300">{masculino}</td>
+                              <td className="text-right py-3 px-4">{pct(masculino, totalClientesTabela)}%</td>
+                            </tr>
+                            <tr className="border-b border-white/5">
+                              <td className="py-3 px-4">Gênero: Feminino</td>
+                              <td className="text-right py-3 px-4 font-semibold text-pink-300">{feminino}</td>
+                              <td className="text-right py-3 px-4">{pct(feminino, totalClientesTabela)}%</td>
+                            </tr>
+                            <tr className="border-b border-white/5">
+                              <td className="py-3 px-4">Eventos no Total</td>
+                              <td className="text-right py-3 px-4 font-semibold text-fuchsia-300">{totalEventosTabela}</td>
+                              <td className="text-right py-3 px-4">{totalEventosTabela > 0 ? "100%" : "0%"}</td>
+                            </tr>
+                            <tr>
+                              <td className="py-3 px-4">Eventos nos próximos 7 dias</td>
+                              <td className="text-right py-3 px-4 font-semibold text-indigo-300">{proximos7}</td>
+                              <td className="text-right py-3 px-4">
+                                {totalEventosTabela > 0 ? pct(proximos7, totalEventosTabela) : 0}%
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })()}
                     </tbody>
                   </table>
                 </div>
@@ -4034,7 +3978,7 @@ export default function Inicio() {
               <div className="rounded-2xl border border-slate-600/50 bg-slate-800/30 p-6 shadow-sm hover-lift">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h2 className="text-2xl font-bold text-slate-100 mb-2">📄 Relatórios em PDF</h2>
+                    <h2 className="text-2xl font-bold text-slate-100 mb-2">Relatórios em PDF</h2>
                     <p className="text-sm text-slate-300 mb-2">
                       Escolha entre relatório semanal ou mensal. Ambos incluem estatísticas, gráficos e análises detalhadas.
                     </p>
@@ -4058,7 +4002,6 @@ export default function Inicio() {
                     }`}
                   >
                     <div className="text-center">
-                      <div className="text-2xl mb-2">📊</div>
                       <div className="font-semibold">Semanal</div>
                       <div className="text-xs mt-1 opacity-80">
                         Resumo da semana
@@ -4075,7 +4018,6 @@ export default function Inicio() {
                     }`}
                   >
                     <div className="text-center">
-                      <div className="text-2xl mb-2">📈</div>
                       <div className="font-semibold">Mensal</div>
                       <div className="text-xs mt-1 opacity-80">
                         Análise completa
@@ -4092,14 +4034,14 @@ export default function Inicio() {
                 }`}>
                   {tipoRelatorio === "semanal" ? (
                     <div>
-                      <p className="text-sm text-slate-200 font-semibold mb-1">📊 Relatório Semanal</p>
+                      <p className="text-sm text-slate-200 font-semibold mb-1">Relatório Semanal</p>
                       <p className="text-xs text-slate-300">
                         Inclui: resumo executivo, estatísticas principais, gráficos de distribuição por tipo e status, análise de humor e observações gerais.
                       </p>
                     </div>
                   ) : (
                     <div>
-                      <p className="text-sm text-slate-200 font-semibold mb-1">📈 Relatório Mensal (Elaborado)</p>
+                      <p className="text-sm text-slate-200 font-semibold mb-1">Relatório Mensal (Elaborado)</p>
                       <p className="text-xs text-slate-300">
                         Inclui tudo do semanal, mais: dashboard de métricas mensais, análise detalhada por tipo, análise de gênero, recomendações estratégicas, insights detalhados e conclusão mensal completa.
                       </p>
@@ -4124,7 +4066,7 @@ export default function Inicio() {
                     </>
                   ) : (
                     <>
-                      {tipoRelatorio === "semanal" ? "📊 Gerar Relatório Semanal" : "📈 Gerar Relatório Mensal"}
+                      {tipoRelatorio === "semanal" ? "Gerar Relatório Semanal" : "Gerar Relatório Mensal"}
                     </>
                   )}
                 </button>
@@ -4134,7 +4076,7 @@ export default function Inicio() {
               <div className="rounded-2xl border border-slate-600/50 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 p-6 shadow-lg shadow-indigo-900/30 hover-lift">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h2 className="text-xl font-semibold text-slate-100 mb-2">💾 Backup e Restauração</h2>
+                    <h2 className="text-xl font-semibold text-slate-100 mb-2">Backup e Restauração</h2>
                     <p className="text-sm text-slate-300 mb-2">
                       Exporte todos os seus dados em JSON ou importe um backup anterior.
                     </p>
@@ -4148,13 +4090,13 @@ export default function Inicio() {
                     onClick={exportarJSON}
                     className="rounded-xl bg-slate-600 px-4 py-3 text-sm font-semibold text-slate-100 shadow-lg shadow-indigo-900/40 hover:opacity-90 transition"
                   >
-                    📥 Exportar JSON Completo
+                    Exportar JSON Completo
                   </button>
                   <button
                     onClick={importarJSON}
                     className="rounded-xl border-2 border-indigo-400/50 bg-indigo-500/20 px-4 py-3 text-sm font-semibold text-indigo-100 hover:bg-indigo-500/30 transition"
                   >
-                    📤 Importar JSON
+                    Importar JSON
                   </button>
                 </div>
               </div>
@@ -4192,7 +4134,7 @@ export default function Inicio() {
                         </>
                       ) : (
                         <>
-                          📥 Baixar Excel - Todos os Clientes
+                          Baixar Excel - Todos os Clientes
                         </>
                       )}
                     </button>
@@ -4201,7 +4143,7 @@ export default function Inicio() {
 
                 <div className="mt-6 rounded-xl border border-slate-600/50 bg-purple-500/10 p-4">
                   <p className="text-xs text-purple-200">
-                    💡 <strong>Dica:</strong> Os arquivos são salvos automaticamente na pasta de Downloads com a data atual no nome.
+                    <strong>Dica:</strong> Os arquivos são salvos automaticamente na pasta de Downloads com a data atual no nome.
                     Você pode abrir os arquivos .xlsx no Excel, Google Sheets ou qualquer planilha compatível.
                   </p>
                 </div>
