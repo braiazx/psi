@@ -94,82 +94,6 @@
 
 ---
 
-## 📦 Instalação
-
-### Pré-requisitos
-
-- **Node.js** (versão 18 ou superior)
-  - Baixe em: https://nodejs.org/
-  - Verifique a instalação: `node --version`
-
-### 🚀 Instalação Rápida
-
-```bash
-# 1. Clone o repositório
-git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
-cd projeto001
-
-# 2. Instale as dependências do backend
-cd backend
-npm install
-
-# 3. Instale as dependências do frontend
-cd ../frontend
-npm install
-
-# 4. Inicie o backend (em um terminal)
-cd backend
-npm run dev
-
-# 5. Inicie o frontend (em outro terminal)
-cd frontend
-npm run dev
-```
-
-### ⚡ Iniciar os Servidores
-
-**Terminal 1 - Backend:**
-```bash
-cd backend
-npm run dev
-```
-O backend estará em: http://localhost:3001
-
-**Terminal 2 - Frontend:**
-```bash
-cd frontend
-npm run dev
-```
-O frontend estará em: http://localhost:3000 (ou 3002 se 3000 estiver ocupada)
-
-### 📊 Dados de Demonstração
-
-O sistema já vem com dados fictícios pré-carregados para demonstração:
-- 12 clientes
-- 8 eventos
-- 15 transações financeiras
-- 10 anotações
-
-Os dados aparecerão automaticamente ao acessar o sistema pela primeira vez.
-
-### 🔑 Credenciais de Acesso
-
-```
-Usuário: adm
-Senha:   adm
-```
-
----
-
-## 💻 Uso
-
-### Primeiro Acesso
-
-1. Acesse `http://localhost:3000`
-2. Faça login com as credenciais
-3. Explore o painel principal
-
-### Fluxo de Trabalho Recomendado
 
 1. **Cadastrar Cliente**: Aba "Clientes" → Preencher formulário → Salvar
 2. **Agendar Evento**: Aba "Agenda" → Clicar no dia → Preencher dados
@@ -303,7 +227,6 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 
 ## 🙏 Agradecimentos
 
-- Inspirado em [psicomanager.com.br](https://www.psicomanager.com.br)
 - Comunidade React/Next.js
 - Todos os contribuidores
 
